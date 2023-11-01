@@ -14,6 +14,7 @@ set (CMAKE_MODULE_PATH "${CMAKE_MODULE_PATH};${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 
 include(generic)
 include(check_mcu)
+include(setup_path)
 
 #Uncomment for hardware floating point
 set(FPU_FLAGS "-mfloat-abi=hard -mfpu=fpv4-sp-d16")
@@ -29,24 +30,9 @@ set(CMAKE_C_FLAGS "${COMMON_FLAGS} ${C_FLAGS}")
 set(CMAKE_CXX_FLAGS "${COMMON_FLAGS} ${C_FLAGS}")
 set(CMAKE_ASM_FLAGS "${COMMON_FLAGS} ${C_FLAGS} -x assembler-with-cpp")
 
-#add_definitions(-D__weak=__attribute__\(\(weak\)\) -D__packed=__attribute__\(\(__packed__\)\) -DUSE_HAL_DRIVER -$STM32F401xx)
-
 file(GLOB ASM_SOURCES ${STARTUP_SOURCE})
-#set_property(SOURCE ${ASM_SOURCES} APPEND PROPERTY COMPILE_OPTIONS "-x" "assembler-with-cpp")
-file(GLOB HEADERS "Core/Inc/*.h")
-file(GLOB SOURCES "code/src/*.c")
 
-
-#print out ASM_SOURCES
-message(STATUS "ASM_SOURCES: ${ASM_SOURCES}")
-
-
-
-include_directories(Core/Inc
-    Drivers/STM32F4xx_HAL_Driver/Inc
-    Drivers/STM32F4xx_HAL_Driver/Inc/Legacy
-    Drivers/CMSIS/Device/ST/STM32F4xx/Include
-    Drivers/CMSIS/Include)
+message(STATUS "SOURCES: ${SOURCES}")
 
 add_executable(${PROJECT_NAME}.elf ${SOURCES} ${ASM_SOURCES} ${LINKER_SCRIPT})
 target_link_libraries(${PROJECT_NAME}.elf m)
