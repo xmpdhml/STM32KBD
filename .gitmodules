@@ -1,3 +1,5 @@
 [submodule "firmware/stm32cube_mcu_package/STM32CubeF4"]
+	branch = master
+	update = rebase
 	path = firmware/stm32cube_mcu_package/STM32CubeF4
 	url = git@github.com:STMicroelectronics/STM32CubeF4.git
