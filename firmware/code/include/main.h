@@ -5,10 +5,10 @@
 extern "C" {
 #endif
 
-#include "gpio.h"
+#include "hal.h"
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif // __MAIN_H__
+#endif /* __MAIN_H__ */

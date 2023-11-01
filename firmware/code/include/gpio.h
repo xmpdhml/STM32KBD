@@ -5,8 +5,6 @@
 extern "C" {
 #endif
 
-#include "stm32f4xx_hal.h"
-
 void GPIO_Init(void);
 
 
@@ -14,4 +12,4 @@ void GPIO_Init(void);
 }
 #endif
 
-#endif // __GPIO_H__
+#endif /*__ GPIO_H__ */

@@ -18,7 +18,7 @@ include(setup_path)
 
 #Uncomment for hardware floating point
 set(FPU_FLAGS "-mfloat-abi=hard -mfpu=fpv4-sp-d16")
-add_definitions( -DSTM32F401xC -DUSE_HAL_DRIVER )
+add_definitions( -D${MCUSTM} -DUSE_HAL_DRIVER )
 
 #Uncomment for software floating point
 #set(FPU_FLAGS "-mfloat-abi=soft")
@@ -32,7 +32,7 @@ set(CMAKE_ASM_FLAGS "${COMMON_FLAGS} ${C_FLAGS} -x assembler-with-cpp")
 
 file(GLOB ASM_SOURCES ${STARTUP_SOURCE})
 
-message(STATUS "SOURCES: ${SOURCES}")
+#message(STATUS "SOURCES: ${SOURCES}")
 
 add_executable(${PROJECT_NAME}.elf ${SOURCES} ${ASM_SOURCES} ${LINKER_SCRIPT})
 target_link_libraries(${PROJECT_NAME}.elf m)

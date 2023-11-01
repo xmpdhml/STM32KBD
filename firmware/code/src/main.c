@@ -1,19 +1,22 @@
 #include "main.h"
+#include "gpio.h"
 
+void Error_Handler(void);
 void SystemClock_Config(void);
 
-int main()
+int main(void)
 {
+  HAL_Init();
 
-    HAL_Init();
+  SystemClock_Config();
 
-    SystemClock_Config();
+  GPIO_Init();
 
-    while (1)
-    {
-        HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_13);
-        for (int i = 0; i < 500000; i++);
-    }
+  while (1)
+  {
+    HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_13);
+    HAL_Delay(500);
+  }
 }
 
 void SystemClock_Config(void)
@@ -32,7 +35,10 @@ void SystemClock_Config(void)
   RCC_OscInitStruct.PLL.PLLN = 160;
   RCC_OscInitStruct.PLL.PLLP = RCC_PLLP_DIV4;
   RCC_OscInitStruct.PLL.PLLQ = 4;
-  HAL_RCC_OscConfig(&RCC_OscInitStruct);
+  if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
+  {
+    Error_Handler();
+  }
 
   RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK
                               |RCC_CLOCKTYPE_PCLK1|RCC_CLOCKTYPE_PCLK2;
@@ -41,7 +47,18 @@ void SystemClock_Config(void)
   RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV1;
   RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV1;
 
-  HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_1);
+  if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_1) != HAL_OK)
+  {
+    Error_Handler();
+  }
 
   HAL_RCC_EnableCSS();
+}
+
+void Error_Handler(void)
+{
+  __disable_irq();
+  while (1)
+  {
+  }
 }
