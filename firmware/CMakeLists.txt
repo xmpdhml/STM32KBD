@@ -24,7 +24,7 @@ add_definitions( -D${MCUSTM} -DUSE_HAL_DRIVER )
 #set(FPU_FLAGS "-mfloat-abi=soft")
 
 set(COMMON_FLAGS "-mcpu=cortex-m4 ${FPU_FLAGS} -mthumb")
-set(C_FLAGS "-ffunction-sections -fdata-sections -g -Og -Wall")
+set(C_FLAGS "-ffunction-sections -fdata-sections -g -Og -Wall -gdwarf-2")
 
 set(CMAKE_C_FLAGS "${COMMON_FLAGS} ${C_FLAGS}")
 set(CMAKE_CXX_FLAGS "${COMMON_FLAGS} ${C_FLAGS}")
@@ -34,10 +34,12 @@ file(GLOB ASM_SOURCES ${STARTUP_SOURCE})
 
 #message(STATUS "SOURCES: ${SOURCES}")
 
-add_executable(${PROJECT_NAME}.elf ${SOURCES} ${ASM_SOURCES} ${LINKER_SCRIPT})
-target_link_libraries(${PROJECT_NAME}.elf m)
+#set_source_files_properties(${CMAKE_SOURCE_DIR}/code/src/main.c PROPERTIES COMPILE_OPTIONS "-Wa,-a,-ad,-alms=${CMAKE_SOURCE_DIR}/code/src/main.lst")
 
-set(CMAKE_EXE_LINKER_FLAGS "-T${LINKER_SCRIPT} ${COMMON_FLAGS} -Wl,-Map=${PROJECT_BINARY_DIR}/${PROJECT_NAME}.map,--cref -Wl,--gc-sections -lc -lnosys -specs=nano.specs")
+add_executable(${PROJECT_NAME}.elf ${SOURCES} ${ASM_SOURCES} ${LINKER_SCRIPT})
+target_link_libraries(${PROJECT_NAME}.elf c m nosys)
+
+set(CMAKE_EXE_LINKER_FLAGS "-T${LINKER_SCRIPT} ${COMMON_FLAGS} -Wl,-Map=${PROJECT_BINARY_DIR}/${PROJECT_NAME}.map,--cref -Wl,--gc-sections -specs=nano.specs")
 
 set(HEX_FILE ${PROJECT_BINARY_DIR}/${PROJECT_NAME}.hex)
 set(BIN_FILE ${PROJECT_BINARY_DIR}/${PROJECT_NAME}.bin)

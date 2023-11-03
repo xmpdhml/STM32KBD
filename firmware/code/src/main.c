@@ -1,7 +1,9 @@
 #include "main.h"
 #include "gpio.h"
+#include "debugging.h"
 
-void Error_Handler(void);
+#include <stdio.h>
+
 void SystemClock_Config(void);
 
 int main(void)
@@ -11,9 +13,14 @@ int main(void)
   SystemClock_Config();
 
   GPIO_Init();
+  DMA_Init();
+  USART2_UART_Init();
 
+
+  int i = 0;
   while (1)
   {
+    printf("Hello World! %d\r\n", i++);
     HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_13);
     HAL_Delay(500);
   }
@@ -53,12 +60,4 @@ void SystemClock_Config(void)
   }
 
   HAL_RCC_EnableCSS();
-}
-
-void Error_Handler(void)
-{
-  __disable_irq();
-  while (1)
-  {
-  }
 }
