@@ -1,20 +1,33 @@
 #include "gpio.h"
-#include "hal.h"
 
-void GPIO_Init(void)
-{
 
-  GPIO_InitTypeDef GPIO_InitStruct = {0};
+// Initialize the row pin
+void KBD_Init_Row(KBD_PIN_t pin) {
+    // Set the pin as output open drain
+    
+}
 
-  __HAL_RCC_GPIOC_CLK_ENABLE();
-  __HAL_RCC_GPIOH_CLK_ENABLE();
+// Initialize the column pin
+void KBD_Init_Col(KBD_PIN_t pin) {
+    // Set the pin as input pullup
+    
+}
 
-  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_13, GPIO_PIN_RESET);
+void KBD_Select_Row(KBD_PIN_t pin) {
+    // Set the pin to LOW
+    
+}
 
-  GPIO_InitStruct.Pin = GPIO_PIN_13;
-  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
-  GPIO_InitStruct.Pull = GPIO_NOPULL;
-  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-  HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
+void KBD_Unselect_Row(KBD_PIN_t pin) {
+    // Set the pin to HIGH (open drain)
+}
 
+// Read the state of the column pin
+int Read_Col(KBD_PIN_t pin) {
+    return 0;
+}
+
+// Read the state of all pins in the port
+uint32_t Read_Port(KBD_PORT_t port) {
+    return 0;
 }

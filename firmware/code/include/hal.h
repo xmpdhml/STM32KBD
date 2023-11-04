@@ -9,6 +9,10 @@ extern "C" {
 #include "stm32f4xx_hal.h"
 #endif
 
+
+void GPIO_Init(void);
+
+
 #ifdef __cplusplus
 }
 #endif
