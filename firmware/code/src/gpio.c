@@ -3,7 +3,7 @@
 
 #include <stdio.h>
 
-#define GPIO_DEBUG 0
+#define GPIO_DEBUG 2
 
 #if !defined(GPIO_DEBUG) || GPIO_DEBUG == 0
 #define printf(...)
@@ -34,40 +34,6 @@ void KBD_Init_Row(KBD_PIN_t pin) {
 #endif
 
     // Set the pin as output open drain
-#if USE_BIT_BANDING
-    // OSPEEDR
-    uint32_t* temp = (uint32_t*)(__GPIO_BB_BASE_PORT(__PORT_OF(pin)) + 0x08 * 0x20 + __PIN_OF(pin) * 8);
-    #if GPIO_OSPEEDR == 0
-    *temp++ = 0;
-    *temp = 0;
-    #elif GPIO_OSPEEDR == 1
-    *temp++ = 1;
-    *temp = 0;
-    #elif GPIO_OSPEEDR == 2
-    *temp++ = 0;
-    *temp = 1;
-    #elif GPIO_OSPEEDR == 3
-    *temp++ = 1;
-    *temp = 1;
-    #endif    
-    printf("OSPEEDR 0x%.8lx\n", *(uint32_t*)(__GPIO_BASE_PORT(__PORT_OF(pin)) + 0x08));
-
-    // OTYPER 1 (open drain)
-    *(uint32_t*)(__GPIO_BB_BASE_PORT(__PORT_OF(pin)) + 0x04 * 0x20 + __PIN_OF(pin) * 4) = 1;
-    printf("OTYPER 0x%.8lx\n", *(uint32_t*)(__GPIO_BASE_PORT(__PORT_OF(pin)) + 0x04));
-
-    // PUPDR 00 (no pullup/pulldown)
-    temp = (uint32_t*)(__GPIO_BB_BASE_PORT(__PORT_OF(pin)) + 0x0C * 0x20 + __PIN_OF(pin) * 8);
-    *temp++ = 0;
-    *temp = 0;
-    printf("PUPDR 0x%.8lx\n", *(uint32_t*)(__GPIO_BASE_PORT(__PORT_OF(pin)) + 0x0C));
-
-    // MODER: 01 (output)
-    temp = (uint32_t*)(__GPIO_BB_BASE_PORT(__PORT_OF(pin)) + __PIN_OF(pin) * 8);
-    *temp++ = 1;
-    *temp = 0;
-    printf("MODER 0x%.8lx\n", *(uint32_t*)(__GPIO_BASE_PORT(__PORT_OF(pin)) + 0x00));
-#else
     uint32_t temp;
     GPIO_TypeDef* port = (GPIO_TypeDef*)__GPIO_BASE_PORT(__PORT_OF(pin));
 
@@ -92,7 +58,6 @@ void KBD_Init_Row(KBD_PIN_t pin) {
     temp |= (1 << (__PIN_OF(pin) * 2));
     port->MODER = temp;
     printf("MODER 0x%.8lx\n", *(uint32_t*)(__GPIO_BASE_PORT(__PORT_OF(pin)) + 0x00));
-#endif
 
 #if GPIO_DEBUG > 1
     {
@@ -129,19 +94,6 @@ void KBD_Init_Col(KBD_PIN_t pin) {
     }
 #endif
 
-#if USE_BIT_BANDING
-    // PUPDR 01 (pullup)
-    uint32_t* temp = (uint32_t*)(__GPIO_BB_BASE_PORT(__PORT_OF(pin)) + 0x0C * 0x20 + __PIN_OF(pin) * 8 + 4);
-    *temp-- = 0;
-    *temp = 1;
-    printf("PUPDR 0x%.8lx\n", *(uint32_t*)(__GPIO_BASE_PORT(__PORT_OF(pin)) + 0x0C));
-
-    // MODER: 00 (input)
-    temp = (uint32_t*)(__GPIO_BB_BASE_PORT(__PORT_OF(pin)) + __PIN_OF(pin) * 8);
-    *temp++ = 0;
-    *temp = 0;
-    printf("MODER 0x%.8lx\n", *(uint32_t*)(__GPIO_BASE_PORT(__PORT_OF(pin)) + 0x00));
-#else
     uint32_t temp;
     GPIO_TypeDef* port = (GPIO_TypeDef*)__GPIO_BASE_PORT(__PORT_OF(pin));
 
@@ -157,7 +109,6 @@ void KBD_Init_Col(KBD_PIN_t pin) {
     temp &= ~(3 << (__PIN_OF(pin) * 2));
     port->MODER = temp;
     printf("MODER 0x%.8lx\n", *(uint32_t*)(__GPIO_BASE_PORT(__PORT_OF(pin)) + 0x00));
-#endif
 
 #if GPIO_DEBUG > 1
     {
@@ -182,16 +133,8 @@ void KBD_Select_Row(KBD_PIN_t pin) {
     }
 #endif
 
-#if USE_BIT_BANDING
-    {
-        uint32_t* rs = (uint32_t*)(__GPIO_BB_BASE_PORT(__PORT_OF(pin)) + 0x18 * 0x20 + 0x10 + __PIN_OF(pin) * 4);
-        printf("RS PIN: 0x%.8lx\n", (uint32_t)rs);
-        *rs = 1;
-    }
-#else
     GPIO_TypeDef* port = (GPIO_TypeDef*)__GPIO_BASE_PORT(__PORT_OF(pin));
     port->BSRR = (1 << (__PIN_OF(pin) + 16));
-#endif
 
 #if GPIO_DEBUG > 1
     {
@@ -212,16 +155,8 @@ void KBD_Unselect_Row(KBD_PIN_t pin) {
     }
 #endif
 
-#if USE_BIT_BANDING
-    {
-        uint32_t* bs = (uint32_t*)(__GPIO_BB_BASE_PORT(__PORT_OF(pin)) + 0x18 * 0x20 + __PIN_OF(pin) * 4);
-        printf("BS PIN: 0x%.8lx\n", (uint32_t)bs);
-        *bs = 0;
-    }
-#else
     GPIO_TypeDef* port = (GPIO_TypeDef*)__GPIO_BASE_PORT(__PORT_OF(pin));
     port->BSRR = (1 << (__PIN_OF(pin)));
-#endif
 
 #if GPIO_DEBUG > 1
     {

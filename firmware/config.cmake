@@ -9,4 +9,4 @@ set(MCU STM32F401RC)
 set(GPIO_OSPEED 1)
 
 #config if generate LST files
-set(GENERATE_LST_FILES 1)
+#set(GENERATE_LST_FILES 1)
