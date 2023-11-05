@@ -5,6 +5,8 @@
 extern "C" {
 #endif
 
+#define UART_DEBUG_DMA 0
+
 #include "hal.h"
 
 #ifdef __cplusplus

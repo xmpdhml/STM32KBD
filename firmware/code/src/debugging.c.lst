@@ -1,0 +1,824 @@
+   1              		.cpu cortex-m4
+   2              		.arch armv7e-m
+   3              		.fpu fpv4-sp-d16
+   4              		.eabi_attribute 27, 1
+   5              		.eabi_attribute 28, 1
+   6              		.eabi_attribute 20, 1
+   7              		.eabi_attribute 21, 1
+   8              		.eabi_attribute 23, 3
+   9              		.eabi_attribute 24, 1
+  10              		.eabi_attribute 25, 1
+  11              		.eabi_attribute 26, 1
+  12              		.eabi_attribute 30, 1
+  13              		.eabi_attribute 34, 1
+  14              		.eabi_attribute 18, 4
+  15              		.file	"debugging.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.file 1 "/home/yan/Work/STM32KBD/firmware/code/src/debugging.c"
+  20              		.section	.text._write,"ax",%progbits
+  21              		.align	1
+  22              		.global	_write
+  23              		.syntax unified
+  24              		.thumb
+  25              		.thumb_func
+  27              	_write:
+  28              	.LVL0:
+  29              	.LFB130:
+   1:/home/yan/Work/STM32KBD/firmware/code/src/debugging.c **** #include "debugging.h"
+   2:/home/yan/Work/STM32KBD/firmware/code/src/debugging.c **** 
+   3:/home/yan/Work/STM32KBD/firmware/code/src/debugging.c **** int _write(int file, char* ptr, int len)
+   4:/home/yan/Work/STM32KBD/firmware/code/src/debugging.c **** {
+  30              		.loc 1 4 1 view -0
+  31              		.cfi_startproc
+  32              		@ args = 0, pretend = 0, frame = 0
+  33              		@ frame_needed = 0, uses_anonymous_args = 0
+  34              		.loc 1 4 1 is_stmt 0 view .LVU1
+  35 0000 10B5     		push	{r4, lr}
+  36              	.LCFI0:
+  37              		.cfi_def_cfa_offset 8
+  38              		.cfi_offset 4, -8
+  39              		.cfi_offset 14, -4
+  40 0002 1446     		mov	r4, r2
+   5:/home/yan/Work/STM32KBD/firmware/code/src/debugging.c ****     // send data to USART2
+   6:/home/yan/Work/STM32KBD/firmware/code/src/debugging.c **** #if UART_DEBUG_DMA
+   7:/home/yan/Work/STM32KBD/firmware/code/src/debugging.c ****     HAL_UART_Transmit_DMA(&huart2, (uint8_t*)ptr, len);
+   8:/home/yan/Work/STM32KBD/firmware/code/src/debugging.c **** #else
+   9:/home/yan/Work/STM32KBD/firmware/code/src/debugging.c ****     HAL_UART_Transmit(&huart2, (uint8_t*)ptr, len, 1000);
+  41              		.loc 1 9 5 is_stmt 1 view .LVU2
+  42 0004 4FF47A73 		mov	r3, #1000
+  43 0008 92B2     		uxth	r2, r2
+  44              	.LVL1:
+  45              		.loc 1 9 5 is_stmt 0 view .LVU3
+  46 000a 0248     		ldr	r0, .L3
+  47              	.LVL2:
+  48              		.loc 1 9 5 view .LVU4
+  49 000c FFF7FEFF 		bl	HAL_UART_Transmit
+  50              	.LVL3:
+  10:/home/yan/Work/STM32KBD/firmware/code/src/debugging.c **** #endif
+  11:/home/yan/Work/STM32KBD/firmware/code/src/debugging.c ****     return len;
+  51              		.loc 1 11 5 is_stmt 1 view .LVU5
+  12:/home/yan/Work/STM32KBD/firmware/code/src/debugging.c **** }
+  52              		.loc 1 12 1 is_stmt 0 view .LVU6
+  53 0010 2046     		mov	r0, r4
+  54 0012 10BD     		pop	{r4, pc}
+  55              	.LVL4:
+  56              	.L4:
+  57              		.loc 1 12 1 view .LVU7
+  58              		.align	2
+  59              	.L3:
+  60 0014 00000000 		.word	huart2
+  61              		.cfi_endproc
+  62              	.LFE130:
+  64              		.section	.text.Error_Handler,"ax",%progbits
+  65              		.align	1
+  66              		.global	Error_Handler
+  67              		.syntax unified
+  68              		.thumb
+  69              		.thumb_func
+  71              	Error_Handler:
+  72              	.LFB131:
+  13:/home/yan/Work/STM32KBD/firmware/code/src/debugging.c **** 
+  14:/home/yan/Work/STM32KBD/firmware/code/src/debugging.c **** void Error_Handler(void)
+  15:/home/yan/Work/STM32KBD/firmware/code/src/debugging.c **** {
+  73              		.loc 1 15 1 is_stmt 1 view -0
+  74              		.cfi_startproc
+  75              		@ Volatile: function does not return.
+  76              		@ args = 0, pretend = 0, frame = 0
+  77              		@ frame_needed = 0, uses_anonymous_args = 0
+  78              		@ link register save eliminated.
+  16:/home/yan/Work/STM32KBD/firmware/code/src/debugging.c ****   __disable_irq();
+  79              		.loc 1 16 3 view .LVU9
+  80              	.LBB4:
+  81              	.LBI4:
+  82              		.file 2 "/home/yan/Work/STM32KBD/firmware/stm32cube_mcu_package/STM32CubeF4/Drivers/CMSIS/Include/
+   1:/home/yan/Work/STM32KBD/firmware/stm32cube_mcu_package/STM32CubeF4/Drivers/CMSIS/Include/cmsis_gcc.h **** /**************************************************************************//**
+   2:/home/yan/Work/STM32KBD/firmware/stm32cube_mcu_package/STM32CubeF4/Drivers/CMSIS/Include/cmsis_gcc.h ****  * @file     cmsis_gcc.h
+   3:/home/yan/Work/STM32KBD/firmware/stm32cube_mcu_package/STM32CubeF4/Drivers/CMSIS/Include/cmsis_gcc.h ****  * @brief    CMSIS compiler GCC header file
+   4:/home/yan/Work/STM32KBD/firmware/stm32cube_mcu_package/STM32CubeF4/Drivers/CMSIS/Include/cmsis_gcc.h ****  * @version  V5.0.4
+   5:/home/yan/Work/STM32KBD/firmware/stm32cube_mcu_package/STM32CubeF4/Drivers/CMSIS/Include/cmsis_gcc.h ****  * @date     09. April 2018
+   6:/home/yan/Work/STM32KBD/firmware/stm32cube_mcu_package/STM32CubeF4/Drivers/CMSIS/Include/cmsis_gcc.h ****  ******************************************************************************/
+   7:/home/yan/Work/STM32KBD/firmware/stm32cube_mcu_package/STM32CubeF4/Drivers/CMSIS/Include/cmsis_gcc.h **** /*
+   8:/home/yan/Work/STM32KBD/firmware/stm32cube_mcu_package/STM32CubeF4/Drivers/CMSIS/Include/cmsis_gcc.h ****  * Copyright (c) 2009-2018 Arm Limited. All rights reserved.
+   9:/home/yan/Work/STM32KBD/firmware/stm32cube_mcu_package/STM32CubeF4/Drivers/CMSIS/Include/cmsis_gcc.h ****  *
+  10:/home/yan/Work/STM32KBD/firmware/stm32cube_mcu_package/STM32CubeF4/Drivers/CMSIS/Include/cmsis_gcc.h ****  * SPDX-License-Identifier: Apache-2.0
+  11:/home/yan/Work/STM32KBD/firmware/stm32cube_mcu_package/STM32CubeF4/Drivers/CMSIS/Include/cmsis_gcc.h ****  *
+  12:/home/yan/Work/STM32KBD/firmware/stm32cube_mcu_package/STM32CubeF4/Drivers/CMSIS/Include/cmsis_gcc.h ****  * Licensed under the Apache License, Version 2.0 (the License); you may
+  13:/home/yan/Work/STM32KBD/firmware/stm32cube_mcu_package/STM32CubeF4/Drivers/CMSIS/Include/cmsis_gcc.h ****  * not use this file except in compliance with the License.
+  14:/home/yan/Work/STM32KBD/firmware/stm32cube_mcu_package/STM32CubeF4/Drivers/CMSIS/Include/cmsis_gcc.h ****  * You may obtain a copy of the License at
+  15:/home/yan/Work/STM32KBD/firmware/stm32cube_mcu_package/STM32CubeF4/Drivers/CMSIS/Include/cmsis_gcc.h ****  *
+  16:/home/yan/Work/STM32KBD/firmware/stm32cube_mcu_package/STM32CubeF4/Drivers/CMSIS/Include/cmsis_gcc.h ****  * www.apache.org/licenses/LICENSE-2.0
+  17:/home/yan/Work/STM32KBD/firmware/stm32cube_mcu_package/STM32CubeF4/Drivers/CMSIS/Include/cmsis_gcc.h ****  *
+  18:/home/yan/Work/STM32KBD/firmware/stm32cube_mcu_package/STM32CubeF4/Drivers/CMSIS/Include/cmsis_gcc.h ****  * Unless required by applicable law or agreed to in writing, software
+  19:/home/yan/Work/STM32KBD/firmware/stm32cube_mcu_package/STM32CubeF4/Drivers/CMSIS/Include/cmsis_gcc.h ****  * distributed under the License is distributed on an AS IS BASIS, WITHOUT
+  20:/home/yan/Work/STM32KBD/firmware/stm32cube_mcu_package/STM32CubeF4/Drivers/CMSIS/Include/cmsis_gcc.h ****  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  21:/home/yan/Work/STM32KBD/firmware/stm32cube_mcu_package/STM32CubeF4/Drivers/CMSIS/Include/cmsis_gcc.h ****  * See the License for the specific language governing permissions and
+  22:/home/yan/Work/STM32KBD/firmware/stm32cube_mcu_package/STM32CubeF4/Drivers/CMSIS/Include/cmsis_gcc.h ****  * limitations under the License.
+  23:/home/yan/Work/STM32KBD/firmware/stm32cube_mcu_package/STM32CubeF4/Drivers/CMSIS/Include/cmsis_gcc.h ****  */
+  24:/home/yan/Work/STM32KBD/firmware/stm32cube_mcu_package/STM32CubeF4/Drivers/CMSIS/Include/cmsis_gcc.h **** 
+  25:/home/yan/Work/STM32KBD/firmware/stm32cube_mcu_package/STM32CubeF4/Drivers/CMSIS/Include/cmsis_gcc.h **** #ifndef __CMSIS_GCC_H
+  26:/home/yan/Work/STM32KBD/firmware/stm32cube_mcu_package/STM32CubeF4/Drivers/CMSIS/Include/cmsis_gcc.h **** #define __CMSIS_GCC_H
+  27:/home/yan/Work/STM32KBD/firmware/stm32cube_mcu_package/STM32CubeF4/Drivers/CMSIS/Include/cmsis_gcc.h **** 
+  28:/home/yan/Work/STM32KBD/firmware/stm32cube_mcu_package/STM32CubeF4/Drivers/CMSIS/Include/cmsis_gcc.h **** /* ignore some GCC warnings */
+  29:/home/yan/Work/STM32KBD/firmware/stm32cube_mcu_package/STM32CubeF4/Drivers/CMSIS/Include/cmsis_gcc.h **** #pragma GCC diagnostic push
+  30:/home/yan/Work/STM32KBD/firmware/stm32cube_mcu_package/STM32CubeF4/Drivers/CMSIS/Include/cmsis_gcc.h **** #pragma GCC diagnostic ignored "-Wsign-conversion"
+  31:/home/yan/Work/STM32KBD/firmware/stm32cube_mcu_package/STM32CubeF4/Drivers/CMSIS/Include/cmsis_gcc.h **** #pragma GCC diagnostic ignored "-Wconversion"
+  32:/home/yan/Work/STM32KBD/firmware/stm32cube_mcu_package/STM32CubeF4/Drivers/CMSIS/Include/cmsis_gcc.h **** #pragma GCC diagnostic ignored "-Wunused-parameter"
+  33:/home/yan/Work/STM32KBD/firmware/stm32cube_mcu_package/STM32CubeF4/Drivers/CMSIS/Include/cmsis_gcc.h **** 
+  34:/home/yan/Work/STM32KBD/firmware/stm32cube_mcu_package/STM32CubeF4/Drivers/CMSIS/Include/cmsis_gcc.h **** /* Fallback for __has_builtin */
+  35:/home/yan/Work/STM32KBD/firmware/stm32cube_mcu_package/STM32CubeF4/Drivers/CMSIS/Include/cmsis_gcc.h **** #ifndef __has_builtin
+  36:/home/yan/Work/STM32KBD/firmware/stm32cube_mcu_package/STM32CubeF4/Drivers/CMSIS/Include/cmsis_gcc.h ****   #define __has_builtin(x) (0)
+  37:/home/yan/Work/STM32KBD/firmware/stm32cube_mcu_package/STM32CubeF4/Drivers/CMSIS/Include/cmsis_gcc.h **** #endif
+  38:/home/yan/Work/STM32KBD/firmware/stm32cube_mcu_package/STM32CubeF4/Drivers/CMSIS/Include/cmsis_gcc.h **** 
+  39:/home/yan/Work/STM32KBD/firmware/stm32cube_mcu_package/STM32CubeF4/Drivers/CMSIS/Include/cmsis_gcc.h **** /* CMSIS compiler specific defines */
+  40:/home/yan/Work/STM32KBD/firmware/stm32cube_mcu_package/STM32CubeF4/Drivers/CMSIS/Include/cmsis_gcc.h **** #ifndef   __ASM
+  41:/home/yan/Work/STM32KBD/firmware/stm32cube_mcu_package/STM32CubeF4/Drivers/CMSIS/Include/cmsis_gcc.h ****   #define __ASM                                  __asm
+  42:/home/yan/Work/STM32KBD/firmware/stm32cube_mcu_package/STM32CubeF4/Drivers/CMSIS/Include/cmsis_gcc.h **** #endif
+  43:/home/yan/Work/STM32KBD/firmware/stm32cube_mcu_package/STM32CubeF4/Drivers/CMSIS/Include/cmsis_gcc.h **** #ifndef   __INLINE
+  44:/home/yan/Work/STM32KBD/firmware/stm32cube_mcu_package/STM32CubeF4/Drivers/CMSIS/Include/cmsis_gcc.h ****   #define __INLINE                               inline
+  45:/home/yan/Work/STM32KBD/firmware/stm32cube_mcu_package/STM32CubeF4/Drivers/CMSIS/Include/cmsis_gcc.h **** #endif
+  46:/home/yan/Work/STM32KBD/firmware/stm32cube_mcu_package/STM32CubeF4/Drivers/CMSIS/Include/cmsis_gcc.h **** #ifndef   __STATIC_INLINE
+  47:/home/yan/Work/STM32KBD/firmware/stm32cube_mcu_package/STM32CubeF4/Drivers/CMSIS/Include/cmsis_gcc.h ****   #define __STATIC_INLINE                        static inline
+  48:/home/yan/Work/STM32KBD/firmware/stm32cube_mcu_package/STM32CubeF4/Drivers/CMSIS/Include/cmsis_gcc.h **** #endif
+  49:/home/yan/Work/STM32KBD/firmware/stm32cube_mcu_package/STM32CubeF4/Drivers/CMSIS/Include/cmsis_gcc.h **** #ifndef   __STATIC_FORCEINLINE                 
+  50:/home/yan/Work/STM32KBD/firmware/stm32cube_mcu_package/STM32CubeF4/Drivers/CMSIS/Include/cmsis_gcc.h ****   #define __STATIC_FORCEINLINE                   __attribute__((always_inline)) static inline
+  51:/home/yan/Work/STM32KBD/firmware/stm32cube_mcu_package/STM32CubeF4/Drivers/CMSIS/Include/cmsis_gcc.h **** #endif                                           
+  52:/home/yan/Work/STM32KBD/firmware/stm32cube_mcu_package/STM32CubeF4/Drivers/CMSIS/Include/cmsis_gcc.h **** #ifndef   __NO_RETURN
+  53:/home/yan/Work/STM32KBD/firmware/stm32cube_mcu_package/STM32CubeF4/Drivers/CMSIS/Include/cmsis_gcc.h ****   #define __NO_RETURN                            __attribute__((__noreturn__))
+  54:/home/yan/Work/STM32KBD/firmware/stm32cube_mcu_package/STM32CubeF4/Drivers/CMSIS/Include/cmsis_gcc.h **** #endif
+  55:/home/yan/Work/STM32KBD/firmware/stm32cube_mcu_package/STM32CubeF4/Drivers/CMSIS/Include/cmsis_gcc.h **** #ifndef   __USED
+  56:/home/yan/Work/STM32KBD/firmware/stm32cube_mcu_package/STM32CubeF4/Drivers/CMSIS/Include/cmsis_gcc.h ****   #define __USED                                 __attribute__((used))
+  57:/home/yan/Work/STM32KBD/firmware/stm32cube_mcu_package/STM32CubeF4/Drivers/CMSIS/Include/cmsis_gcc.h **** #endif
+  58:/home/yan/Work/STM32KBD/firmware/stm32cube_mcu_package/STM32CubeF4/Drivers/CMSIS/Include/cmsis_gcc.h **** #ifndef   __WEAK
+  59:/home/yan/Work/STM32KBD/firmware/stm32cube_mcu_package/STM32CubeF4/Drivers/CMSIS/Include/cmsis_gcc.h ****   #define __WEAK                                 __attribute__((weak))
+  60:/home/yan/Work/STM32KBD/firmware/stm32cube_mcu_package/STM32CubeF4/Drivers/CMSIS/Include/cmsis_gcc.h **** #endif
+  61:/home/yan/Work/STM32KBD/firmware/stm32cube_mcu_package/STM32CubeF4/Drivers/CMSIS/Include/cmsis_gcc.h **** #ifndef   __PACKED
+  62:/home/yan/Work/STM32KBD/firmware/stm32cube_mcu_package/STM32CubeF4/Drivers/CMSIS/Include/cmsis_gcc.h ****   #define __PACKED                               __attribute__((packed, aligned(1)))
+  63:/home/yan/Work/STM32KBD/firmware/stm32cube_mcu_package/STM32CubeF4/Drivers/CMSIS/Include/cmsis_gcc.h **** #endif
+  64:/home/yan/Work/STM32KBD/firmware/stm32cube_mcu_package/STM32CubeF4/Drivers/CMSIS/Include/cmsis_gcc.h **** #ifndef   __PACKED_STRUCT
+  65:/home/yan/Work/STM32KBD/firmware/stm32cube_mcu_package/STM32CubeF4/Drivers/CMSIS/Include/cmsis_gcc.h ****   #define __PACKED_STRUCT                        struct __attribute__((packed, aligned(1)))
+  66:/home/yan/Work/STM32KBD/firmware/stm32cube_mcu_package/STM32CubeF4/Drivers/CMSIS/Include/cmsis_gcc.h **** #endif
+  67:/home/yan/Work/STM32KBD/firmware/stm32cube_mcu_package/STM32CubeF4/Drivers/CMSIS/Include/cmsis_gcc.h **** #ifndef   __PACKED_UNION
+  68:/home/yan/Work/STM32KBD/firmware/stm32cube_mcu_package/STM32CubeF4/Drivers/CMSIS/Include/cmsis_gcc.h ****   #define __PACKED_UNION                         union __attribute__((packed, aligned(1)))
+  69:/home/yan/Work/STM32KBD/firmware/stm32cube_mcu_package/STM32CubeF4/Drivers/CMSIS/Include/cmsis_gcc.h **** #endif
+  70:/home/yan/Work/STM32KBD/firmware/stm32cube_mcu_package/STM32CubeF4/Drivers/CMSIS/Include/cmsis_gcc.h **** #ifndef   __UNALIGNED_UINT32        /* deprecated */
+  71:/home/yan/Work/STM32KBD/firmware/stm32cube_mcu_package/STM32CubeF4/Drivers/CMSIS/Include/cmsis_gcc.h ****   #pragma GCC diagnostic push
+  72:/home/yan/Work/STM32KBD/firmware/stm32cube_mcu_package/STM32CubeF4/Drivers/CMSIS/Include/cmsis_gcc.h ****   #pragma GCC diagnostic ignored "-Wpacked"
+  73:/home/yan/Work/STM32KBD/firmware/stm32cube_mcu_package/STM32CubeF4/Drivers/CMSIS/Include/cmsis_gcc.h ****   #pragma GCC diagnostic ignored "-Wattributes"
+  74:/home/yan/Work/STM32KBD/firmware/stm32cube_mcu_package/STM32CubeF4/Drivers/CMSIS/Include/cmsis_gcc.h ****   struct __attribute__((packed)) T_UINT32 { uint32_t v; };
+  75:/home/yan/Work/STM32KBD/firmware/stm32cube_mcu_package/STM32CubeF4/Drivers/CMSIS/Include/cmsis_gcc.h ****   #pragma GCC diagnostic pop
+  76:/home/yan/Work/STM32KBD/firmware/stm32cube_mcu_package/STM32CubeF4/Drivers/CMSIS/Include/cmsis_gcc.h ****   #define __UNALIGNED_UINT32(x)                  (((struct T_UINT32 *)(x))->v)
+  77:/home/yan/Work/STM32KBD/firmware/stm32cube_mcu_package/STM32CubeF4/Drivers/CMSIS/Include/cmsis_gcc.h **** #endif
+  78:/home/yan/Work/STM32KBD/firmware/stm32cube_mcu_package/STM32CubeF4/Drivers/CMSIS/Include/cmsis_gcc.h **** #ifndef   __UNALIGNED_UINT16_WRITE
+  79:/home/yan/Work/STM32KBD/firmware/stm32cube_mcu_package/STM32CubeF4/Drivers/CMSIS/Include/cmsis_gcc.h ****   #pragma GCC diagnostic push
+  80:/home/yan/Work/STM32KBD/firmware/stm32cube_mcu_package/STM32CubeF4/Drivers/CMSIS/Include/cmsis_gcc.h ****   #pragma GCC diagnostic ignored "-Wpacked"
+  81:/home/yan/Work/STM32KBD/firmware/stm32cube_mcu_package/STM32CubeF4/Drivers/CMSIS/Include/cmsis_gcc.h ****   #pragma GCC diagnostic ignored "-Wattributes"
+  82:/home/yan/Work/STM32KBD/firmware/stm32cube_mcu_package/STM32CubeF4/Drivers/CMSIS/Include/cmsis_gcc.h ****   __PACKED_STRUCT T_UINT16_WRITE { uint16_t v; };
+  83:/home/yan/Work/STM32KBD/firmware/stm32cube_mcu_package/STM32CubeF4/Drivers/CMSIS/Include/cmsis_gcc.h ****   #pragma GCC diagnostic pop
+  84:/home/yan/Work/STM32KBD/firmware/stm32cube_mcu_package/STM32CubeF4/Drivers/CMSIS/Include/cmsis_gcc.h ****   #define __UNALIGNED_UINT16_WRITE(addr, val)    (void)((((struct T_UINT16_WRITE *)(void *)(addr))-
+  85:/home/yan/Work/STM32KBD/firmware/stm32cube_mcu_package/STM32CubeF4/Drivers/CMSIS/Include/cmsis_gcc.h **** #endif
+  86:/home/yan/Work/STM32KBD/firmware/stm32cube_mcu_package/STM32CubeF4/Drivers/CMSIS/Include/cmsis_gcc.h **** #ifndef   __UNALIGNED_UINT16_READ
+  87:/home/yan/Work/STM32KBD/firmware/stm32cube_mcu_package/STM32CubeF4/Drivers/CMSIS/Include/cmsis_gcc.h ****   #pragma GCC diagnostic push
+  88:/home/yan/Work/STM32KBD/firmware/stm32cube_mcu_package/STM32CubeF4/Drivers/CMSIS/Include/cmsis_gcc.h ****   #pragma GCC diagnostic ignored "-Wpacked"
+  89:/home/yan/Work/STM32KBD/firmware/stm32cube_mcu_package/STM32CubeF4/Drivers/CMSIS/Include/cmsis_gcc.h ****   #pragma GCC diagnostic ignored "-Wattributes"
+  90:/home/yan/Work/STM32KBD/firmware/stm32cube_mcu_package/STM32CubeF4/Drivers/CMSIS/Include/cmsis_gcc.h ****   __PACKED_STRUCT T_UINT16_READ { uint16_t v; };
+  91:/home/yan/Work/STM32KBD/firmware/stm32cube_mcu_package/STM32CubeF4/Drivers/CMSIS/Include/cmsis_gcc.h ****   #pragma GCC diagnostic pop
+  92:/home/yan/Work/STM32KBD/firmware/stm32cube_mcu_package/STM32CubeF4/Drivers/CMSIS/Include/cmsis_gcc.h ****   #define __UNALIGNED_UINT16_READ(addr)          (((const struct T_UINT16_READ *)(const void *)(add
+  93:/home/yan/Work/STM32KBD/firmware/stm32cube_mcu_package/STM32CubeF4/Drivers/CMSIS/Include/cmsis_gcc.h **** #endif
+  94:/home/yan/Work/STM32KBD/firmware/stm32cube_mcu_package/STM32CubeF4/Drivers/CMSIS/Include/cmsis_gcc.h **** #ifndef   __UNALIGNED_UINT32_WRITE
+  95:/home/yan/Work/STM32KBD/firmware/stm32cube_mcu_package/STM32CubeF4/Drivers/CMSIS/Include/cmsis_gcc.h ****   #pragma GCC diagnostic push
+  96:/home/yan/Work/STM32KBD/firmware/stm32cube_mcu_package/STM32CubeF4/Drivers/CMSIS/Include/cmsis_gcc.h ****   #pragma GCC diagnostic ignored "-Wpacked"
+  97:/home/yan/Work/STM32KBD/firmware/stm32cube_mcu_package/STM32CubeF4/Drivers/CMSIS/Include/cmsis_gcc.h ****   #pragma GCC diagnostic ignored "-Wattributes"
+  98:/home/yan/Work/STM32KBD/firmware/stm32cube_mcu_package/STM32CubeF4/Drivers/CMSIS/Include/cmsis_gcc.h ****   __PACKED_STRUCT T_UINT32_WRITE { uint32_t v; };
+  99:/home/yan/Work/STM32KBD/firmware/stm32cube_mcu_package/STM32CubeF4/Drivers/CMSIS/Include/cmsis_gcc.h ****   #pragma GCC diagnostic pop
+ 100:/home/yan/Work/STM32KBD/firmware/stm32cube_mcu_package/STM32CubeF4/Drivers/CMSIS/Include/cmsis_gcc.h ****   #define __UNALIGNED_UINT32_WRITE(addr, val)    (void)((((struct T_UINT32_WRITE *)(void *)(addr))-
+ 101:/home/yan/Work/STM32KBD/firmware/stm32cube_mcu_package/STM32CubeF4/Drivers/CMSIS/Include/cmsis_gcc.h **** #endif
+ 102:/home/yan/Work/STM32KBD/firmware/stm32cube_mcu_package/STM32CubeF4/Drivers/CMSIS/Include/cmsis_gcc.h **** #ifndef   __UNALIGNED_UINT32_READ
+ 103:/home/yan/Work/STM32KBD/firmware/stm32cube_mcu_package/STM32CubeF4/Drivers/CMSIS/Include/cmsis_gcc.h ****   #pragma GCC diagnostic push
+ 104:/home/yan/Work/STM32KBD/firmware/stm32cube_mcu_package/STM32CubeF4/Drivers/CMSIS/Include/cmsis_gcc.h ****   #pragma GCC diagnostic ignored "-Wpacked"
+ 105:/home/yan/Work/STM32KBD/firmware/stm32cube_mcu_package/STM32CubeF4/Drivers/CMSIS/Include/cmsis_gcc.h ****   #pragma GCC diagnostic ignored "-Wattributes"
+ 106:/home/yan/Work/STM32KBD/firmware/stm32cube_mcu_package/STM32CubeF4/Drivers/CMSIS/Include/cmsis_gcc.h ****   __PACKED_STRUCT T_UINT32_READ { uint32_t v; };
+ 107:/home/yan/Work/STM32KBD/firmware/stm32cube_mcu_package/STM32CubeF4/Drivers/CMSIS/Include/cmsis_gcc.h ****   #pragma GCC diagnostic pop
+ 108:/home/yan/Work/STM32KBD/firmware/stm32cube_mcu_package/STM32CubeF4/Drivers/CMSIS/Include/cmsis_gcc.h ****   #define __UNALIGNED_UINT32_READ(addr)          (((const struct T_UINT32_READ *)(const void *)(add
+ 109:/home/yan/Work/STM32KBD/firmware/stm32cube_mcu_package/STM32CubeF4/Drivers/CMSIS/Include/cmsis_gcc.h **** #endif
+ 110:/home/yan/Work/STM32KBD/firmware/stm32cube_mcu_package/STM32CubeF4/Drivers/CMSIS/Include/cmsis_gcc.h **** #ifndef   __ALIGNED
+ 111:/home/yan/Work/STM32KBD/firmware/stm32cube_mcu_package/STM32CubeF4/Drivers/CMSIS/Include/cmsis_gcc.h ****   #define __ALIGNED(x)                           __attribute__((aligned(x)))
+ 112:/home/yan/Work/STM32KBD/firmware/stm32cube_mcu_package/STM32CubeF4/Drivers/CMSIS/Include/cmsis_gcc.h **** #endif
+ 113:/home/yan/Work/STM32KBD/firmware/stm32cube_mcu_package/STM32CubeF4/Drivers/CMSIS/Include/cmsis_gcc.h **** #ifndef   __RESTRICT
+ 114:/home/yan/Work/STM32KBD/firmware/stm32cube_mcu_package/STM32CubeF4/Drivers/CMSIS/Include/cmsis_gcc.h ****   #define __RESTRICT                             __restrict
+ 115:/home/yan/Work/STM32KBD/firmware/stm32cube_mcu_package/STM32CubeF4/Drivers/CMSIS/Include/cmsis_gcc.h **** #endif
+ 116:/home/yan/Work/STM32KBD/firmware/stm32cube_mcu_package/STM32CubeF4/Drivers/CMSIS/Include/cmsis_gcc.h **** 
+ 117:/home/yan/Work/STM32KBD/firmware/stm32cube_mcu_package/STM32CubeF4/Drivers/CMSIS/Include/cmsis_gcc.h **** 
+ 118:/home/yan/Work/STM32KBD/firmware/stm32cube_mcu_package/STM32CubeF4/Drivers/CMSIS/Include/cmsis_gcc.h **** /* ###########################  Core Function Access  ########################### */
+ 119:/home/yan/Work/STM32KBD/firmware/stm32cube_mcu_package/STM32CubeF4/Drivers/CMSIS/Include/cmsis_gcc.h **** /** \ingroup  CMSIS_Core_FunctionInterface
+ 120:/home/yan/Work/STM32KBD/firmware/stm32cube_mcu_package/STM32CubeF4/Drivers/CMSIS/Include/cmsis_gcc.h ****     \defgroup CMSIS_Core_RegAccFunctions CMSIS Core Register Access Functions
+ 121:/home/yan/Work/STM32KBD/firmware/stm32cube_mcu_package/STM32CubeF4/Drivers/CMSIS/Include/cmsis_gcc.h ****   @{
+ 122:/home/yan/Work/STM32KBD/firmware/stm32cube_mcu_package/STM32CubeF4/Drivers/CMSIS/Include/cmsis_gcc.h ****  */
+ 123:/home/yan/Work/STM32KBD/firmware/stm32cube_mcu_package/STM32CubeF4/Drivers/CMSIS/Include/cmsis_gcc.h **** 
+ 124:/home/yan/Work/STM32KBD/firmware/stm32cube_mcu_package/STM32CubeF4/Drivers/CMSIS/Include/cmsis_gcc.h **** /**
+ 125:/home/yan/Work/STM32KBD/firmware/stm32cube_mcu_package/STM32CubeF4/Drivers/CMSIS/Include/cmsis_gcc.h ****   \brief   Enable IRQ Interrupts
+ 126:/home/yan/Work/STM32KBD/firmware/stm32cube_mcu_package/STM32CubeF4/Drivers/CMSIS/Include/cmsis_gcc.h ****   \details Enables IRQ interrupts by clearing the I-bit in the CPSR.
+ 127:/home/yan/Work/STM32KBD/firmware/stm32cube_mcu_package/STM32CubeF4/Drivers/CMSIS/Include/cmsis_gcc.h ****            Can only be executed in Privileged modes.
+ 128:/home/yan/Work/STM32KBD/firmware/stm32cube_mcu_package/STM32CubeF4/Drivers/CMSIS/Include/cmsis_gcc.h ****  */
+ 129:/home/yan/Work/STM32KBD/firmware/stm32cube_mcu_package/STM32CubeF4/Drivers/CMSIS/Include/cmsis_gcc.h **** __STATIC_FORCEINLINE void __enable_irq(void)
+ 130:/home/yan/Work/STM32KBD/firmware/stm32cube_mcu_package/STM32CubeF4/Drivers/CMSIS/Include/cmsis_gcc.h **** {
+ 131:/home/yan/Work/STM32KBD/firmware/stm32cube_mcu_package/STM32CubeF4/Drivers/CMSIS/Include/cmsis_gcc.h ****   __ASM volatile ("cpsie i" : : : "memory");
+ 132:/home/yan/Work/STM32KBD/firmware/stm32cube_mcu_package/STM32CubeF4/Drivers/CMSIS/Include/cmsis_gcc.h **** }
+ 133:/home/yan/Work/STM32KBD/firmware/stm32cube_mcu_package/STM32CubeF4/Drivers/CMSIS/Include/cmsis_gcc.h **** 
+ 134:/home/yan/Work/STM32KBD/firmware/stm32cube_mcu_package/STM32CubeF4/Drivers/CMSIS/Include/cmsis_gcc.h **** 
+ 135:/home/yan/Work/STM32KBD/firmware/stm32cube_mcu_package/STM32CubeF4/Drivers/CMSIS/Include/cmsis_gcc.h **** /**
+ 136:/home/yan/Work/STM32KBD/firmware/stm32cube_mcu_package/STM32CubeF4/Drivers/CMSIS/Include/cmsis_gcc.h ****   \brief   Disable IRQ Interrupts
+ 137:/home/yan/Work/STM32KBD/firmware/stm32cube_mcu_package/STM32CubeF4/Drivers/CMSIS/Include/cmsis_gcc.h ****   \details Disables IRQ interrupts by setting the I-bit in the CPSR.
+ 138:/home/yan/Work/STM32KBD/firmware/stm32cube_mcu_package/STM32CubeF4/Drivers/CMSIS/Include/cmsis_gcc.h ****            Can only be executed in Privileged modes.
+ 139:/home/yan/Work/STM32KBD/firmware/stm32cube_mcu_package/STM32CubeF4/Drivers/CMSIS/Include/cmsis_gcc.h ****  */
+ 140:/home/yan/Work/STM32KBD/firmware/stm32cube_mcu_package/STM32CubeF4/Drivers/CMSIS/Include/cmsis_gcc.h **** __STATIC_FORCEINLINE void __disable_irq(void)
+  83              		.loc 2 140 27 view .LVU10
+  84              	.LBB5:
+ 141:/home/yan/Work/STM32KBD/firmware/stm32cube_mcu_package/STM32CubeF4/Drivers/CMSIS/Include/cmsis_gcc.h **** {
+ 142:/home/yan/Work/STM32KBD/firmware/stm32cube_mcu_package/STM32CubeF4/Drivers/CMSIS/Include/cmsis_gcc.h ****   __ASM volatile ("cpsid i" : : : "memory");
+  85              		.loc 2 142 3 view .LVU11
+  86              		.syntax unified
+  87              	@ 142 "/home/yan/Work/STM32KBD/firmware/stm32cube_mcu_package/STM32CubeF4/Drivers/CMSIS/Include/cms
+  88 0000 72B6     		cpsid i
+  89              	@ 0 "" 2
+  90              		.thumb
+  91              		.syntax unified
+  92              	.L6:
+  93              	.LBE5:
+  94              	.LBE4:
+  17:/home/yan/Work/STM32KBD/firmware/code/src/debugging.c ****   while (1)
+  95              		.loc 1 17 3 discriminator 1 view .LVU12
+  18:/home/yan/Work/STM32KBD/firmware/code/src/debugging.c ****   {
+  19:/home/yan/Work/STM32KBD/firmware/code/src/debugging.c ****   }
+  96              		.loc 1 19 3 discriminator 1 view .LVU13
+  17:/home/yan/Work/STM32KBD/firmware/code/src/debugging.c ****   while (1)
+  97              		.loc 1 17 9 discriminator 1 view .LVU14
+  98 0002 FEE7     		b	.L6
+  99              		.cfi_endproc
+ 100              	.LFE131:
+ 102              		.section	.text.DMA_Init,"ax",%progbits
+ 103              		.align	1
+ 104              		.global	DMA_Init
+ 105              		.syntax unified
+ 106              		.thumb
+ 107              		.thumb_func
+ 109              	DMA_Init:
+ 110              	.LFB132:
+  20:/home/yan/Work/STM32KBD/firmware/code/src/debugging.c **** }
+  21:/home/yan/Work/STM32KBD/firmware/code/src/debugging.c **** 
+  22:/home/yan/Work/STM32KBD/firmware/code/src/debugging.c **** void DMA_Init(void)
+  23:/home/yan/Work/STM32KBD/firmware/code/src/debugging.c **** {
+ 111              		.loc 1 23 1 view -0
+ 112              		.cfi_startproc
+ 113              		@ args = 0, pretend = 0, frame = 8
+ 114              		@ frame_needed = 0, uses_anonymous_args = 0
+ 115 0000 00B5     		push	{lr}
+ 116              	.LCFI1:
+ 117              		.cfi_def_cfa_offset 4
+ 118              		.cfi_offset 14, -4
+ 119 0002 83B0     		sub	sp, sp, #12
+ 120              	.LCFI2:
+ 121              		.cfi_def_cfa_offset 16
+  24:/home/yan/Work/STM32KBD/firmware/code/src/debugging.c ****   __HAL_RCC_DMA1_CLK_ENABLE();
+ 122              		.loc 1 24 3 view .LVU16
+ 123              	.LBB6:
+ 124              		.loc 1 24 3 view .LVU17
+ 125 0004 0021     		movs	r1, #0
+ 126 0006 0191     		str	r1, [sp, #4]
+ 127              		.loc 1 24 3 view .LVU18
+ 128 0008 094B     		ldr	r3, .L9
+ 129 000a 1A6B     		ldr	r2, [r3, #48]
+ 130 000c 42F40012 		orr	r2, r2, #2097152
+ 131 0010 1A63     		str	r2, [r3, #48]
+ 132              		.loc 1 24 3 view .LVU19
+ 133 0012 1B6B     		ldr	r3, [r3, #48]
+ 134 0014 03F40013 		and	r3, r3, #2097152
+ 135 0018 0193     		str	r3, [sp, #4]
+ 136              		.loc 1 24 3 view .LVU20
+ 137 001a 019B     		ldr	r3, [sp, #4]
+ 138              	.LBE6:
+ 139              		.loc 1 24 3 view .LVU21
+  25:/home/yan/Work/STM32KBD/firmware/code/src/debugging.c **** 
+  26:/home/yan/Work/STM32KBD/firmware/code/src/debugging.c ****   HAL_NVIC_SetPriority(DMA1_Stream6_IRQn, 0, 0);
+ 140              		.loc 1 26 3 view .LVU22
+ 141 001c 0A46     		mov	r2, r1
+ 142 001e 1120     		movs	r0, #17
+ 143 0020 FFF7FEFF 		bl	HAL_NVIC_SetPriority
+ 144              	.LVL5:
+  27:/home/yan/Work/STM32KBD/firmware/code/src/debugging.c ****   HAL_NVIC_EnableIRQ(DMA1_Stream6_IRQn);
+ 145              		.loc 1 27 3 view .LVU23
+ 146 0024 1120     		movs	r0, #17
+ 147 0026 FFF7FEFF 		bl	HAL_NVIC_EnableIRQ
+ 148              	.LVL6:
+  28:/home/yan/Work/STM32KBD/firmware/code/src/debugging.c **** }
+ 149              		.loc 1 28 1 is_stmt 0 view .LVU24
+ 150 002a 03B0     		add	sp, sp, #12
+ 151              	.LCFI3:
+ 152              		.cfi_def_cfa_offset 4
+ 153              		@ sp needed
+ 154 002c 5DF804FB 		ldr	pc, [sp], #4
+ 155              	.L10:
+ 156              		.align	2
+ 157              	.L9:
+ 158 0030 00380240 		.word	1073887232
+ 159              		.cfi_endproc
+ 160              	.LFE132:
+ 162              		.section	.text.USART2_UART_Init,"ax",%progbits
+ 163              		.align	1
+ 164              		.global	USART2_UART_Init
+ 165              		.syntax unified
+ 166              		.thumb
+ 167              		.thumb_func
+ 169              	USART2_UART_Init:
+ 170              	.LFB133:
+  29:/home/yan/Work/STM32KBD/firmware/code/src/debugging.c **** 
+  30:/home/yan/Work/STM32KBD/firmware/code/src/debugging.c **** UART_HandleTypeDef huart2;
+  31:/home/yan/Work/STM32KBD/firmware/code/src/debugging.c **** DMA_HandleTypeDef hdma_usart2_tx;
+  32:/home/yan/Work/STM32KBD/firmware/code/src/debugging.c **** 
+  33:/home/yan/Work/STM32KBD/firmware/code/src/debugging.c **** void USART2_UART_Init(void)
+  34:/home/yan/Work/STM32KBD/firmware/code/src/debugging.c **** {
+ 171              		.loc 1 34 1 is_stmt 1 view -0
+ 172              		.cfi_startproc
+ 173              		@ args = 0, pretend = 0, frame = 0
+ 174              		@ frame_needed = 0, uses_anonymous_args = 0
+ 175 0000 08B5     		push	{r3, lr}
+ 176              	.LCFI4:
+ 177              		.cfi_def_cfa_offset 8
+ 178              		.cfi_offset 3, -8
+ 179              		.cfi_offset 14, -4
+  35:/home/yan/Work/STM32KBD/firmware/code/src/debugging.c ****   huart2.Instance = USART2;
+ 180              		.loc 1 35 3 view .LVU26
+ 181              		.loc 1 35 19 is_stmt 0 view .LVU27
+ 182 0002 0A48     		ldr	r0, .L15
+ 183 0004 0A4B     		ldr	r3, .L15+4
+ 184 0006 0360     		str	r3, [r0]
+  36:/home/yan/Work/STM32KBD/firmware/code/src/debugging.c ****   huart2.Init.BaudRate = 115200;
+ 185              		.loc 1 36 3 is_stmt 1 view .LVU28
+ 186              		.loc 1 36 24 is_stmt 0 view .LVU29
+ 187 0008 4FF4E133 		mov	r3, #115200
+ 188 000c 4360     		str	r3, [r0, #4]
+  37:/home/yan/Work/STM32KBD/firmware/code/src/debugging.c ****   huart2.Init.WordLength = UART_WORDLENGTH_8B;
+ 189              		.loc 1 37 3 is_stmt 1 view .LVU30
+ 190              		.loc 1 37 26 is_stmt 0 view .LVU31
+ 191 000e 0023     		movs	r3, #0
+ 192 0010 8360     		str	r3, [r0, #8]
+  38:/home/yan/Work/STM32KBD/firmware/code/src/debugging.c ****   huart2.Init.StopBits = UART_STOPBITS_1;
+ 193              		.loc 1 38 3 is_stmt 1 view .LVU32
+ 194              		.loc 1 38 24 is_stmt 0 view .LVU33
+ 195 0012 C360     		str	r3, [r0, #12]
+  39:/home/yan/Work/STM32KBD/firmware/code/src/debugging.c ****   huart2.Init.Parity = UART_PARITY_NONE;
+ 196              		.loc 1 39 3 is_stmt 1 view .LVU34
+ 197              		.loc 1 39 22 is_stmt 0 view .LVU35
+ 198 0014 0361     		str	r3, [r0, #16]
+  40:/home/yan/Work/STM32KBD/firmware/code/src/debugging.c ****   huart2.Init.Mode = UART_MODE_TX;
+ 199              		.loc 1 40 3 is_stmt 1 view .LVU36
+ 200              		.loc 1 40 20 is_stmt 0 view .LVU37
+ 201 0016 0822     		movs	r2, #8
+ 202 0018 4261     		str	r2, [r0, #20]
+  41:/home/yan/Work/STM32KBD/firmware/code/src/debugging.c ****   huart2.Init.HwFlowCtl = UART_HWCONTROL_NONE;
+ 203              		.loc 1 41 3 is_stmt 1 view .LVU38
+ 204              		.loc 1 41 25 is_stmt 0 view .LVU39
+ 205 001a 8361     		str	r3, [r0, #24]
+  42:/home/yan/Work/STM32KBD/firmware/code/src/debugging.c ****   huart2.Init.OverSampling = UART_OVERSAMPLING_16;
+ 206              		.loc 1 42 3 is_stmt 1 view .LVU40
+ 207              		.loc 1 42 28 is_stmt 0 view .LVU41
+ 208 001c C361     		str	r3, [r0, #28]
+  43:/home/yan/Work/STM32KBD/firmware/code/src/debugging.c ****   if (HAL_HalfDuplex_Init(&huart2) != HAL_OK)
+ 209              		.loc 1 43 3 is_stmt 1 view .LVU42
+ 210              		.loc 1 43 7 is_stmt 0 view .LVU43
+ 211 001e FFF7FEFF 		bl	HAL_HalfDuplex_Init
+ 212              	.LVL7:
+ 213              		.loc 1 43 6 view .LVU44
+ 214 0022 00B9     		cbnz	r0, .L14
+  44:/home/yan/Work/STM32KBD/firmware/code/src/debugging.c ****   {
+  45:/home/yan/Work/STM32KBD/firmware/code/src/debugging.c ****     Error_Handler();
+  46:/home/yan/Work/STM32KBD/firmware/code/src/debugging.c ****   }
+  47:/home/yan/Work/STM32KBD/firmware/code/src/debugging.c **** }
+ 215              		.loc 1 47 1 view .LVU45
+ 216 0024 08BD     		pop	{r3, pc}
+ 217              	.L14:
+  45:/home/yan/Work/STM32KBD/firmware/code/src/debugging.c ****   }
+ 218              		.loc 1 45 5 is_stmt 1 view .LVU46
+ 219 0026 FFF7FEFF 		bl	Error_Handler
+ 220              	.LVL8:
+ 221              	.L16:
+ 222 002a 00BF     		.align	2
+ 223              	.L15:
+ 224 002c 00000000 		.word	huart2
+ 225 0030 00440040 		.word	1073759232
+ 226              		.cfi_endproc
+ 227              	.LFE133:
+ 229              		.section	.text.HAL_UART_MspInit,"ax",%progbits
+ 230              		.align	1
+ 231              		.global	HAL_UART_MspInit
+ 232              		.syntax unified
+ 233              		.thumb
+ 234              		.thumb_func
+ 236              	HAL_UART_MspInit:
+ 237              	.LVL9:
+ 238              	.LFB134:
+  48:/home/yan/Work/STM32KBD/firmware/code/src/debugging.c **** 
+  49:/home/yan/Work/STM32KBD/firmware/code/src/debugging.c **** void HAL_UART_MspInit(UART_HandleTypeDef* uartHandle)
+  50:/home/yan/Work/STM32KBD/firmware/code/src/debugging.c **** {
+ 239              		.loc 1 50 1 view -0
+ 240              		.cfi_startproc
+ 241              		@ args = 0, pretend = 0, frame = 32
+ 242              		@ frame_needed = 0, uses_anonymous_args = 0
+ 243              		.loc 1 50 1 is_stmt 0 view .LVU48
+ 244 0000 30B5     		push	{r4, r5, lr}
+ 245              	.LCFI5:
+ 246              		.cfi_def_cfa_offset 12
+ 247              		.cfi_offset 4, -12
+ 248              		.cfi_offset 5, -8
+ 249              		.cfi_offset 14, -4
+ 250 0002 89B0     		sub	sp, sp, #36
+ 251              	.LCFI6:
+ 252              		.cfi_def_cfa_offset 48
+  51:/home/yan/Work/STM32KBD/firmware/code/src/debugging.c **** 
+  52:/home/yan/Work/STM32KBD/firmware/code/src/debugging.c ****   GPIO_InitTypeDef GPIO_InitStruct = {0};
+ 253              		.loc 1 52 3 is_stmt 1 view .LVU49
+ 254              		.loc 1 52 20 is_stmt 0 view .LVU50
+ 255 0004 0023     		movs	r3, #0
+ 256 0006 0393     		str	r3, [sp, #12]
+ 257 0008 0493     		str	r3, [sp, #16]
+ 258 000a 0593     		str	r3, [sp, #20]
+ 259 000c 0693     		str	r3, [sp, #24]
+ 260 000e 0793     		str	r3, [sp, #28]
+  53:/home/yan/Work/STM32KBD/firmware/code/src/debugging.c ****   if(uartHandle->Instance==USART2)
+ 261              		.loc 1 53 3 is_stmt 1 view .LVU51
+ 262              		.loc 1 53 16 is_stmt 0 view .LVU52
+ 263 0010 0268     		ldr	r2, [r0]
+ 264              		.loc 1 53 5 view .LVU53
+ 265 0012 254B     		ldr	r3, .L23
+ 266 0014 9A42     		cmp	r2, r3
+ 267 0016 01D0     		beq	.L21
+ 268              	.LVL10:
+ 269              	.L17:
+  54:/home/yan/Work/STM32KBD/firmware/code/src/debugging.c ****   {
+  55:/home/yan/Work/STM32KBD/firmware/code/src/debugging.c ****     __HAL_RCC_USART2_CLK_ENABLE();
+  56:/home/yan/Work/STM32KBD/firmware/code/src/debugging.c ****     __HAL_RCC_GPIOA_CLK_ENABLE();
+  57:/home/yan/Work/STM32KBD/firmware/code/src/debugging.c **** 
+  58:/home/yan/Work/STM32KBD/firmware/code/src/debugging.c ****     GPIO_InitStruct.Pin = GPIO_PIN_2;
+  59:/home/yan/Work/STM32KBD/firmware/code/src/debugging.c ****     GPIO_InitStruct.Mode = GPIO_MODE_AF_OD;
+  60:/home/yan/Work/STM32KBD/firmware/code/src/debugging.c ****     GPIO_InitStruct.Pull = GPIO_NOPULL;
+  61:/home/yan/Work/STM32KBD/firmware/code/src/debugging.c ****     GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
+  62:/home/yan/Work/STM32KBD/firmware/code/src/debugging.c ****     GPIO_InitStruct.Alternate = GPIO_AF7_USART2;
+  63:/home/yan/Work/STM32KBD/firmware/code/src/debugging.c ****     HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+  64:/home/yan/Work/STM32KBD/firmware/code/src/debugging.c **** 
+  65:/home/yan/Work/STM32KBD/firmware/code/src/debugging.c ****     hdma_usart2_tx.Instance = DMA1_Stream6;
+  66:/home/yan/Work/STM32KBD/firmware/code/src/debugging.c ****     hdma_usart2_tx.Init.Channel = DMA_CHANNEL_4;
+  67:/home/yan/Work/STM32KBD/firmware/code/src/debugging.c ****     hdma_usart2_tx.Init.Direction = DMA_MEMORY_TO_PERIPH;
+  68:/home/yan/Work/STM32KBD/firmware/code/src/debugging.c ****     hdma_usart2_tx.Init.PeriphInc = DMA_PINC_DISABLE;
+  69:/home/yan/Work/STM32KBD/firmware/code/src/debugging.c ****     hdma_usart2_tx.Init.MemInc = DMA_MINC_ENABLE;
+  70:/home/yan/Work/STM32KBD/firmware/code/src/debugging.c ****     hdma_usart2_tx.Init.PeriphDataAlignment = DMA_PDATAALIGN_BYTE;
+  71:/home/yan/Work/STM32KBD/firmware/code/src/debugging.c ****     hdma_usart2_tx.Init.MemDataAlignment = DMA_MDATAALIGN_BYTE;
+  72:/home/yan/Work/STM32KBD/firmware/code/src/debugging.c ****     hdma_usart2_tx.Init.Mode = DMA_NORMAL;
+  73:/home/yan/Work/STM32KBD/firmware/code/src/debugging.c ****     hdma_usart2_tx.Init.Priority = DMA_PRIORITY_LOW;
+  74:/home/yan/Work/STM32KBD/firmware/code/src/debugging.c ****     hdma_usart2_tx.Init.FIFOMode = DMA_FIFOMODE_DISABLE;
+  75:/home/yan/Work/STM32KBD/firmware/code/src/debugging.c ****     if (HAL_DMA_Init(&hdma_usart2_tx) != HAL_OK)
+  76:/home/yan/Work/STM32KBD/firmware/code/src/debugging.c ****     {
+  77:/home/yan/Work/STM32KBD/firmware/code/src/debugging.c ****       Error_Handler();
+  78:/home/yan/Work/STM32KBD/firmware/code/src/debugging.c ****     }
+  79:/home/yan/Work/STM32KBD/firmware/code/src/debugging.c **** 
+  80:/home/yan/Work/STM32KBD/firmware/code/src/debugging.c ****     __HAL_LINKDMA(uartHandle,hdmatx,hdma_usart2_tx);
+  81:/home/yan/Work/STM32KBD/firmware/code/src/debugging.c **** 
+  82:/home/yan/Work/STM32KBD/firmware/code/src/debugging.c ****     HAL_NVIC_SetPriority(USART2_IRQn, 0, 0);
+  83:/home/yan/Work/STM32KBD/firmware/code/src/debugging.c ****     HAL_NVIC_EnableIRQ(USART2_IRQn);
+  84:/home/yan/Work/STM32KBD/firmware/code/src/debugging.c ****   }
+  85:/home/yan/Work/STM32KBD/firmware/code/src/debugging.c **** }
+ 270              		.loc 1 85 1 view .LVU54
+ 271 0018 09B0     		add	sp, sp, #36
+ 272              	.LCFI7:
+ 273              		.cfi_remember_state
+ 274              		.cfi_def_cfa_offset 12
+ 275              		@ sp needed
+ 276 001a 30BD     		pop	{r4, r5, pc}
+ 277              	.LVL11:
+ 278              	.L21:
+ 279              	.LCFI8:
+ 280              		.cfi_restore_state
+ 281              		.loc 1 85 1 view .LVU55
+ 282 001c 0446     		mov	r4, r0
+  55:/home/yan/Work/STM32KBD/firmware/code/src/debugging.c ****     __HAL_RCC_GPIOA_CLK_ENABLE();
+ 283              		.loc 1 55 5 is_stmt 1 view .LVU56
+ 284              	.LBB7:
+  55:/home/yan/Work/STM32KBD/firmware/code/src/debugging.c ****     __HAL_RCC_GPIOA_CLK_ENABLE();
+ 285              		.loc 1 55 5 view .LVU57
+ 286 001e 0025     		movs	r5, #0
+ 287 0020 0195     		str	r5, [sp, #4]
+  55:/home/yan/Work/STM32KBD/firmware/code/src/debugging.c ****     __HAL_RCC_GPIOA_CLK_ENABLE();
+ 288              		.loc 1 55 5 view .LVU58
+ 289 0022 03F5FA33 		add	r3, r3, #128000
+ 290 0026 1A6C     		ldr	r2, [r3, #64]
+ 291 0028 42F40032 		orr	r2, r2, #131072
+ 292 002c 1A64     		str	r2, [r3, #64]
+  55:/home/yan/Work/STM32KBD/firmware/code/src/debugging.c ****     __HAL_RCC_GPIOA_CLK_ENABLE();
+ 293              		.loc 1 55 5 view .LVU59
+ 294 002e 1A6C     		ldr	r2, [r3, #64]
+ 295 0030 02F40032 		and	r2, r2, #131072
+ 296 0034 0192     		str	r2, [sp, #4]
+  55:/home/yan/Work/STM32KBD/firmware/code/src/debugging.c ****     __HAL_RCC_GPIOA_CLK_ENABLE();
+ 297              		.loc 1 55 5 view .LVU60
+ 298 0036 019A     		ldr	r2, [sp, #4]
+ 299              	.LBE7:
+  55:/home/yan/Work/STM32KBD/firmware/code/src/debugging.c ****     __HAL_RCC_GPIOA_CLK_ENABLE();
+ 300              		.loc 1 55 5 view .LVU61
+  56:/home/yan/Work/STM32KBD/firmware/code/src/debugging.c **** 
+ 301              		.loc 1 56 5 view .LVU62
+ 302              	.LBB8:
+  56:/home/yan/Work/STM32KBD/firmware/code/src/debugging.c **** 
+ 303              		.loc 1 56 5 view .LVU63
+ 304 0038 0295     		str	r5, [sp, #8]
+  56:/home/yan/Work/STM32KBD/firmware/code/src/debugging.c **** 
+ 305              		.loc 1 56 5 view .LVU64
+ 306 003a 1A6B     		ldr	r2, [r3, #48]
+ 307 003c 42F00102 		orr	r2, r2, #1
+ 308 0040 1A63     		str	r2, [r3, #48]
+  56:/home/yan/Work/STM32KBD/firmware/code/src/debugging.c **** 
+ 309              		.loc 1 56 5 view .LVU65
+ 310 0042 1B6B     		ldr	r3, [r3, #48]
+ 311 0044 03F00103 		and	r3, r3, #1
+ 312 0048 0293     		str	r3, [sp, #8]
+  56:/home/yan/Work/STM32KBD/firmware/code/src/debugging.c **** 
+ 313              		.loc 1 56 5 view .LVU66
+ 314 004a 029B     		ldr	r3, [sp, #8]
+ 315              	.LBE8:
+  56:/home/yan/Work/STM32KBD/firmware/code/src/debugging.c **** 
+ 316              		.loc 1 56 5 view .LVU67
+  58:/home/yan/Work/STM32KBD/firmware/code/src/debugging.c ****     GPIO_InitStruct.Mode = GPIO_MODE_AF_OD;
+ 317              		.loc 1 58 5 view .LVU68
+  58:/home/yan/Work/STM32KBD/firmware/code/src/debugging.c ****     GPIO_InitStruct.Mode = GPIO_MODE_AF_OD;
+ 318              		.loc 1 58 25 is_stmt 0 view .LVU69
+ 319 004c 0423     		movs	r3, #4
+ 320 004e 0393     		str	r3, [sp, #12]
+  59:/home/yan/Work/STM32KBD/firmware/code/src/debugging.c ****     GPIO_InitStruct.Pull = GPIO_NOPULL;
+ 321              		.loc 1 59 5 is_stmt 1 view .LVU70
+  59:/home/yan/Work/STM32KBD/firmware/code/src/debugging.c ****     GPIO_InitStruct.Pull = GPIO_NOPULL;
+ 322              		.loc 1 59 26 is_stmt 0 view .LVU71
+ 323 0050 1223     		movs	r3, #18
+ 324 0052 0493     		str	r3, [sp, #16]
+  60:/home/yan/Work/STM32KBD/firmware/code/src/debugging.c ****     GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
+ 325              		.loc 1 60 5 is_stmt 1 view .LVU72
+  61:/home/yan/Work/STM32KBD/firmware/code/src/debugging.c ****     GPIO_InitStruct.Alternate = GPIO_AF7_USART2;
+ 326              		.loc 1 61 5 view .LVU73
+  61:/home/yan/Work/STM32KBD/firmware/code/src/debugging.c ****     GPIO_InitStruct.Alternate = GPIO_AF7_USART2;
+ 327              		.loc 1 61 27 is_stmt 0 view .LVU74
+ 328 0054 0323     		movs	r3, #3
+ 329 0056 0693     		str	r3, [sp, #24]
+  62:/home/yan/Work/STM32KBD/firmware/code/src/debugging.c ****     HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+ 330              		.loc 1 62 5 is_stmt 1 view .LVU75
+  62:/home/yan/Work/STM32KBD/firmware/code/src/debugging.c ****     HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+ 331              		.loc 1 62 31 is_stmt 0 view .LVU76
+ 332 0058 0723     		movs	r3, #7
+ 333 005a 0793     		str	r3, [sp, #28]
+  63:/home/yan/Work/STM32KBD/firmware/code/src/debugging.c **** 
+ 334              		.loc 1 63 5 is_stmt 1 view .LVU77
+ 335 005c 03A9     		add	r1, sp, #12
+ 336 005e 1348     		ldr	r0, .L23+4
+ 337              	.LVL12:
+  63:/home/yan/Work/STM32KBD/firmware/code/src/debugging.c **** 
+ 338              		.loc 1 63 5 is_stmt 0 view .LVU78
+ 339 0060 FFF7FEFF 		bl	HAL_GPIO_Init
+ 340              	.LVL13:
+  65:/home/yan/Work/STM32KBD/firmware/code/src/debugging.c ****     hdma_usart2_tx.Init.Channel = DMA_CHANNEL_4;
+ 341              		.loc 1 65 5 is_stmt 1 view .LVU79
+  65:/home/yan/Work/STM32KBD/firmware/code/src/debugging.c ****     hdma_usart2_tx.Init.Channel = DMA_CHANNEL_4;
+ 342              		.loc 1 65 29 is_stmt 0 view .LVU80
+ 343 0064 1248     		ldr	r0, .L23+8
+ 344 0066 134B     		ldr	r3, .L23+12
+ 345 0068 0360     		str	r3, [r0]
+  66:/home/yan/Work/STM32KBD/firmware/code/src/debugging.c ****     hdma_usart2_tx.Init.Direction = DMA_MEMORY_TO_PERIPH;
+ 346              		.loc 1 66 5 is_stmt 1 view .LVU81
+  66:/home/yan/Work/STM32KBD/firmware/code/src/debugging.c ****     hdma_usart2_tx.Init.Direction = DMA_MEMORY_TO_PERIPH;
+ 347              		.loc 1 66 33 is_stmt 0 view .LVU82
+ 348 006a 4FF00063 		mov	r3, #134217728
+ 349 006e 4360     		str	r3, [r0, #4]
+  67:/home/yan/Work/STM32KBD/firmware/code/src/debugging.c ****     hdma_usart2_tx.Init.PeriphInc = DMA_PINC_DISABLE;
+ 350              		.loc 1 67 5 is_stmt 1 view .LVU83
+  67:/home/yan/Work/STM32KBD/firmware/code/src/debugging.c ****     hdma_usart2_tx.Init.PeriphInc = DMA_PINC_DISABLE;
+ 351              		.loc 1 67 35 is_stmt 0 view .LVU84
+ 352 0070 4023     		movs	r3, #64
+ 353 0072 8360     		str	r3, [r0, #8]
+  68:/home/yan/Work/STM32KBD/firmware/code/src/debugging.c ****     hdma_usart2_tx.Init.MemInc = DMA_MINC_ENABLE;
+ 354              		.loc 1 68 5 is_stmt 1 view .LVU85
+  68:/home/yan/Work/STM32KBD/firmware/code/src/debugging.c ****     hdma_usart2_tx.Init.MemInc = DMA_MINC_ENABLE;
+ 355              		.loc 1 68 35 is_stmt 0 view .LVU86
+ 356 0074 C560     		str	r5, [r0, #12]
+  69:/home/yan/Work/STM32KBD/firmware/code/src/debugging.c ****     hdma_usart2_tx.Init.PeriphDataAlignment = DMA_PDATAALIGN_BYTE;
+ 357              		.loc 1 69 5 is_stmt 1 view .LVU87
+  69:/home/yan/Work/STM32KBD/firmware/code/src/debugging.c ****     hdma_usart2_tx.Init.PeriphDataAlignment = DMA_PDATAALIGN_BYTE;
+ 358              		.loc 1 69 32 is_stmt 0 view .LVU88
+ 359 0076 4FF48063 		mov	r3, #1024
+ 360 007a 0361     		str	r3, [r0, #16]
+  70:/home/yan/Work/STM32KBD/firmware/code/src/debugging.c ****     hdma_usart2_tx.Init.MemDataAlignment = DMA_MDATAALIGN_BYTE;
+ 361              		.loc 1 70 5 is_stmt 1 view .LVU89
+  70:/home/yan/Work/STM32KBD/firmware/code/src/debugging.c ****     hdma_usart2_tx.Init.MemDataAlignment = DMA_MDATAALIGN_BYTE;
+ 362              		.loc 1 70 45 is_stmt 0 view .LVU90
+ 363 007c 4561     		str	r5, [r0, #20]
+  71:/home/yan/Work/STM32KBD/firmware/code/src/debugging.c ****     hdma_usart2_tx.Init.Mode = DMA_NORMAL;
+ 364              		.loc 1 71 5 is_stmt 1 view .LVU91
+  71:/home/yan/Work/STM32KBD/firmware/code/src/debugging.c ****     hdma_usart2_tx.Init.Mode = DMA_NORMAL;
+ 365              		.loc 1 71 42 is_stmt 0 view .LVU92
+ 366 007e 8561     		str	r5, [r0, #24]
+  72:/home/yan/Work/STM32KBD/firmware/code/src/debugging.c ****     hdma_usart2_tx.Init.Priority = DMA_PRIORITY_LOW;
+ 367              		.loc 1 72 5 is_stmt 1 view .LVU93
+  72:/home/yan/Work/STM32KBD/firmware/code/src/debugging.c ****     hdma_usart2_tx.Init.Priority = DMA_PRIORITY_LOW;
+ 368              		.loc 1 72 30 is_stmt 0 view .LVU94
+ 369 0080 C561     		str	r5, [r0, #28]
+  73:/home/yan/Work/STM32KBD/firmware/code/src/debugging.c ****     hdma_usart2_tx.Init.FIFOMode = DMA_FIFOMODE_DISABLE;
+ 370              		.loc 1 73 5 is_stmt 1 view .LVU95
+  73:/home/yan/Work/STM32KBD/firmware/code/src/debugging.c ****     hdma_usart2_tx.Init.FIFOMode = DMA_FIFOMODE_DISABLE;
+ 371              		.loc 1 73 34 is_stmt 0 view .LVU96
+ 372 0082 0562     		str	r5, [r0, #32]
+  74:/home/yan/Work/STM32KBD/firmware/code/src/debugging.c ****     if (HAL_DMA_Init(&hdma_usart2_tx) != HAL_OK)
+ 373              		.loc 1 74 5 is_stmt 1 view .LVU97
+  74:/home/yan/Work/STM32KBD/firmware/code/src/debugging.c ****     if (HAL_DMA_Init(&hdma_usart2_tx) != HAL_OK)
+ 374              		.loc 1 74 34 is_stmt 0 view .LVU98
+ 375 0084 4562     		str	r5, [r0, #36]
+  75:/home/yan/Work/STM32KBD/firmware/code/src/debugging.c ****     {
+ 376              		.loc 1 75 5 is_stmt 1 view .LVU99
+  75:/home/yan/Work/STM32KBD/firmware/code/src/debugging.c ****     {
+ 377              		.loc 1 75 9 is_stmt 0 view .LVU100
+ 378 0086 FFF7FEFF 		bl	HAL_DMA_Init
+ 379              	.LVL14:
+  75:/home/yan/Work/STM32KBD/firmware/code/src/debugging.c ****     {
+ 380              		.loc 1 75 8 view .LVU101
+ 381 008a 58B9     		cbnz	r0, .L22
+  80:/home/yan/Work/STM32KBD/firmware/code/src/debugging.c **** 
+ 382              		.loc 1 80 5 is_stmt 1 view .LVU102
+  80:/home/yan/Work/STM32KBD/firmware/code/src/debugging.c **** 
+ 383              		.loc 1 80 5 view .LVU103
+ 384 008c 084B     		ldr	r3, .L23+8
+ 385 008e A363     		str	r3, [r4, #56]
+  80:/home/yan/Work/STM32KBD/firmware/code/src/debugging.c **** 
+ 386              		.loc 1 80 5 view .LVU104
+ 387 0090 9C63     		str	r4, [r3, #56]
+  80:/home/yan/Work/STM32KBD/firmware/code/src/debugging.c **** 
+ 388              		.loc 1 80 5 view .LVU105
+  82:/home/yan/Work/STM32KBD/firmware/code/src/debugging.c ****     HAL_NVIC_EnableIRQ(USART2_IRQn);
+ 389              		.loc 1 82 5 view .LVU106
+ 390 0092 0022     		movs	r2, #0
+ 391 0094 1146     		mov	r1, r2
+ 392 0096 2620     		movs	r0, #38
+ 393 0098 FFF7FEFF 		bl	HAL_NVIC_SetPriority
+ 394              	.LVL15:
+  83:/home/yan/Work/STM32KBD/firmware/code/src/debugging.c ****   }
+ 395              		.loc 1 83 5 view .LVU107
+ 396 009c 2620     		movs	r0, #38
+ 397 009e FFF7FEFF 		bl	HAL_NVIC_EnableIRQ
+ 398              	.LVL16:
+ 399              		.loc 1 85 1 is_stmt 0 view .LVU108
+ 400 00a2 B9E7     		b	.L17
+ 401              	.L22:
+  77:/home/yan/Work/STM32KBD/firmware/code/src/debugging.c ****     }
+ 402              		.loc 1 77 7 is_stmt 1 view .LVU109
+ 403 00a4 FFF7FEFF 		bl	Error_Handler
+ 404              	.LVL17:
+ 405              	.L24:
+ 406              		.align	2
+ 407              	.L23:
+ 408 00a8 00440040 		.word	1073759232
+ 409 00ac 00000240 		.word	1073872896
+ 410 00b0 00000000 		.word	hdma_usart2_tx
+ 411 00b4 A0600240 		.word	1073897632
+ 412              		.cfi_endproc
+ 413              	.LFE134:
+ 415              		.section	.text.HAL_UART_MspDeInit,"ax",%progbits
+ 416              		.align	1
+ 417              		.global	HAL_UART_MspDeInit
+ 418              		.syntax unified
+ 419              		.thumb
+ 420              		.thumb_func
+ 422              	HAL_UART_MspDeInit:
+ 423              	.LVL18:
+ 424              	.LFB135:
+  86:/home/yan/Work/STM32KBD/firmware/code/src/debugging.c **** 
+  87:/home/yan/Work/STM32KBD/firmware/code/src/debugging.c **** void HAL_UART_MspDeInit(UART_HandleTypeDef* uartHandle)
+  88:/home/yan/Work/STM32KBD/firmware/code/src/debugging.c **** {
+ 425              		.loc 1 88 1 view -0
+ 426              		.cfi_startproc
+ 427              		@ args = 0, pretend = 0, frame = 0
+ 428              		@ frame_needed = 0, uses_anonymous_args = 0
+  89:/home/yan/Work/STM32KBD/firmware/code/src/debugging.c ****   if(uartHandle->Instance==USART2)
+ 429              		.loc 1 89 3 view .LVU111
+ 430              		.loc 1 89 16 is_stmt 0 view .LVU112
+ 431 0000 0268     		ldr	r2, [r0]
+ 432              		.loc 1 89 5 view .LVU113
+ 433 0002 0B4B     		ldr	r3, .L32
+ 434 0004 9A42     		cmp	r2, r3
+ 435 0006 00D0     		beq	.L31
+ 436 0008 7047     		bx	lr
+ 437              	.L31:
+  88:/home/yan/Work/STM32KBD/firmware/code/src/debugging.c ****   if(uartHandle->Instance==USART2)
+ 438              		.loc 1 88 1 view .LVU114
+ 439 000a 10B5     		push	{r4, lr}
+ 440              	.LCFI9:
+ 441              		.cfi_def_cfa_offset 8
+ 442              		.cfi_offset 4, -8
+ 443              		.cfi_offset 14, -4
+ 444 000c 0446     		mov	r4, r0
+  90:/home/yan/Work/STM32KBD/firmware/code/src/debugging.c ****   {
+  91:/home/yan/Work/STM32KBD/firmware/code/src/debugging.c ****     __HAL_RCC_USART2_CLK_DISABLE();
+ 445              		.loc 1 91 5 is_stmt 1 view .LVU115
+ 446 000e 094A     		ldr	r2, .L32+4
+ 447 0010 136C     		ldr	r3, [r2, #64]
+ 448 0012 23F40033 		bic	r3, r3, #131072
+ 449 0016 1364     		str	r3, [r2, #64]
+  92:/home/yan/Work/STM32KBD/firmware/code/src/debugging.c **** 
+  93:/home/yan/Work/STM32KBD/firmware/code/src/debugging.c ****     HAL_GPIO_DeInit(GPIOA, GPIO_PIN_2);
+ 450              		.loc 1 93 5 view .LVU116
+ 451 0018 0421     		movs	r1, #4
+ 452 001a 0748     		ldr	r0, .L32+8
+ 453              	.LVL19:
+ 454              		.loc 1 93 5 is_stmt 0 view .LVU117
+ 455 001c FFF7FEFF 		bl	HAL_GPIO_DeInit
+ 456              	.LVL20:
+  94:/home/yan/Work/STM32KBD/firmware/code/src/debugging.c **** 
+  95:/home/yan/Work/STM32KBD/firmware/code/src/debugging.c ****     HAL_DMA_DeInit(uartHandle->hdmatx);
+ 457              		.loc 1 95 5 is_stmt 1 view .LVU118
+ 458 0020 A06B     		ldr	r0, [r4, #56]
+ 459 0022 FFF7FEFF 		bl	HAL_DMA_DeInit
+ 460              	.LVL21:
+  96:/home/yan/Work/STM32KBD/firmware/code/src/debugging.c **** 
+  97:/home/yan/Work/STM32KBD/firmware/code/src/debugging.c ****     HAL_NVIC_DisableIRQ(USART2_IRQn);
+ 461              		.loc 1 97 5 view .LVU119
+ 462 0026 2620     		movs	r0, #38
+ 463 0028 FFF7FEFF 		bl	HAL_NVIC_DisableIRQ
+ 464              	.LVL22:
+  98:/home/yan/Work/STM32KBD/firmware/code/src/debugging.c ****   }
+  99:/home/yan/Work/STM32KBD/firmware/code/src/debugging.c **** }
+ 465              		.loc 1 99 1 is_stmt 0 view .LVU120
+ 466 002c 10BD     		pop	{r4, pc}
+ 467              	.LVL23:
+ 468              	.L33:
+ 469              		.loc 1 99 1 view .LVU121
+ 470 002e 00BF     		.align	2
+ 471              	.L32:
+ 472 0030 00440040 		.word	1073759232
+ 473 0034 00380240 		.word	1073887232
+ 474 0038 00000240 		.word	1073872896
+ 475              		.cfi_endproc
+ 476              	.LFE135:
+ 478              		.global	hdma_usart2_tx
+ 479              		.section	.bss.hdma_usart2_tx,"aw",%nobits
+ 480              		.align	2
+ 483              	hdma_usart2_tx:
+ 484 0000 00000000 		.space	96
+ 484      00000000 
+ 484      00000000 
+ 484      00000000 
+ 484      00000000 
+ 485              		.global	huart2
+ 486              		.section	.bss.huart2,"aw",%nobits
+ 487              		.align	2
+ 490              	huart2:
+ 491 0000 00000000 		.space	72
+ 491      00000000 
+ 491      00000000 
+ 491      00000000 
+ 491      00000000 
+ 492              		.text
+ 493              	.Letext0:
+ 494              		.file 3 "/home/yan/Work/STM32KBD/firmware/stm32cube_mcu_package/STM32CubeF4/Drivers/CMSIS/Device/S
+ 495              		.file 4 "/usr/lib/gcc/arm-none-eabi/12.2.1/include/stdint.h"
+ 496              		.file 5 "/home/yan/Work/STM32KBD/firmware/stm32cube_mcu_package/STM32CubeF4/Drivers/STM32F4xx_HAL_
+ 497              		.file 6 "/home/yan/Work/STM32KBD/firmware/stm32cube_mcu_package/STM32CubeF4/Drivers/STM32F4xx_HAL_
+ 498              		.file 7 "/home/yan/Work/STM32KBD/firmware/stm32cube_mcu_package/STM32CubeF4/Drivers/STM32F4xx_HAL_
+ 499              		.file 8 "/home/yan/Work/STM32KBD/firmware/stm32cube_mcu_package/STM32CubeF4/Drivers/STM32F4xx_HAL_
+ 500              		.file 9 "/home/yan/Work/STM32KBD/firmware/code/include/debugging.h"
+ 501              		.file 10 "/home/yan/Work/STM32KBD/firmware/stm32cube_mcu_package/STM32CubeF4/Drivers/STM32F4xx_HAL
+DEFINED SYMBOLS
+                            *ABS*:00000000 debugging.c
+     /tmp/ccbl29Tf.s:21     .text._write:00000000 $t
+     /tmp/ccbl29Tf.s:27     .text._write:00000000 _write
+     /tmp/ccbl29Tf.s:60     .text._write:00000014 $d
+     /tmp/ccbl29Tf.s:490    .bss.huart2:00000000 huart2
+     /tmp/ccbl29Tf.s:65     .text.Error_Handler:00000000 $t
+     /tmp/ccbl29Tf.s:71     .text.Error_Handler:00000000 Error_Handler
+     /tmp/ccbl29Tf.s:103    .text.DMA_Init:00000000 $t
+     /tmp/ccbl29Tf.s:109    .text.DMA_Init:00000000 DMA_Init
+     /tmp/ccbl29Tf.s:158    .text.DMA_Init:00000030 $d
+     /tmp/ccbl29Tf.s:163    .text.USART2_UART_Init:00000000 $t
+     /tmp/ccbl29Tf.s:169    .text.USART2_UART_Init:00000000 USART2_UART_Init
+     /tmp/ccbl29Tf.s:224    .text.USART2_UART_Init:0000002c $d
+     /tmp/ccbl29Tf.s:230    .text.HAL_UART_MspInit:00000000 $t
+     /tmp/ccbl29Tf.s:236    .text.HAL_UART_MspInit:00000000 HAL_UART_MspInit
+     /tmp/ccbl29Tf.s:408    .text.HAL_UART_MspInit:000000a8 $d
+     /tmp/ccbl29Tf.s:483    .bss.hdma_usart2_tx:00000000 hdma_usart2_tx
+     /tmp/ccbl29Tf.s:416    .text.HAL_UART_MspDeInit:00000000 $t
+     /tmp/ccbl29Tf.s:422    .text.HAL_UART_MspDeInit:00000000 HAL_UART_MspDeInit
+     /tmp/ccbl29Tf.s:472    .text.HAL_UART_MspDeInit:00000030 $d
+     /tmp/ccbl29Tf.s:480    .bss.hdma_usart2_tx:00000000 $d
+     /tmp/ccbl29Tf.s:487    .bss.huart2:00000000 $d
+
+UNDEFINED SYMBOLS
+HAL_UART_Transmit
+HAL_NVIC_SetPriority
+HAL_NVIC_EnableIRQ
+HAL_HalfDuplex_Init
+HAL_GPIO_Init
+HAL_DMA_Init
+HAL_GPIO_DeInit
+HAL_DMA_DeInit
+HAL_NVIC_DisableIRQ

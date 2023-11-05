@@ -39,6 +39,12 @@ file(GLOB ASM_SOURCES ${STARTUP_SOURCE})
 add_executable(${PROJECT_NAME}.elf ${SOURCES} ${ASM_SOURCES} ${LINKER_SCRIPT})
 target_link_libraries(${PROJECT_NAME}.elf c m nosys)
 
+if(GENERATE_LST_FILES)
+foreach(srcfile IN LISTS SOURCES)
+  set_source_files_properties(${srcfile} PROPERTIES COMPILE_FLAGS "-Wa,-anhlmsd=${srcfile}.lst")
+endforeach()
+endif()
+
 set(CMAKE_EXE_LINKER_FLAGS "-T${LINKER_SCRIPT} ${COMMON_FLAGS} -Wl,-Map=${PROJECT_BINARY_DIR}/${PROJECT_NAME}.map,--cref -Wl,--gc-sections -specs=nano.specs")
 
 set(HEX_FILE ${PROJECT_BINARY_DIR}/${PROJECT_NAME}.hex)

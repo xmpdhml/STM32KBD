@@ -7,6 +7,8 @@ extern "C" {
 
 #include "hal.h"
 
+#define USE_BIT_BANDING 1
+
 typedef enum {
     KBD_PORT_A = 0,
     KBD_PORT_B = 1,

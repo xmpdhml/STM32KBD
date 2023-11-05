@@ -16,13 +16,14 @@ int main(void)
   DMA_Init();
   USART2_UART_Init();
 
+  KBD_Init_Row(PIN_C0);
 
   int i = 0;
   while (1)
   {
     printf("Hello World! %d\r\n", i++);
     HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_13);
-    HAL_Delay(500);
+    HAL_Delay(1000);
   }
 }
 

@@ -3,7 +3,11 @@
 int _write(int file, char* ptr, int len)
 {
     // send data to USART2
+#if UART_DEBUG_DMA
     HAL_UART_Transmit_DMA(&huart2, (uint8_t*)ptr, len);
+#else
+    HAL_UART_Transmit(&huart2, (uint8_t*)ptr, len, 1000);
+#endif
     return len;
 }
 

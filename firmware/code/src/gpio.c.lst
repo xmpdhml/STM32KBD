@@ -1,0 +1,591 @@
+   1              		.cpu cortex-m4
+   2              		.arch armv7e-m
+   3              		.fpu fpv4-sp-d16
+   4              		.eabi_attribute 27, 1
+   5              		.eabi_attribute 28, 1
+   6              		.eabi_attribute 20, 1
+   7              		.eabi_attribute 21, 1
+   8              		.eabi_attribute 23, 3
+   9              		.eabi_attribute 24, 1
+  10              		.eabi_attribute 25, 1
+  11              		.eabi_attribute 26, 1
+  12              		.eabi_attribute 30, 1
+  13              		.eabi_attribute 34, 1
+  14              		.eabi_attribute 18, 4
+  15              		.file	"gpio.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.file 1 "/home/yan/Work/STM32KBD/firmware/code/src/gpio.c"
+  20              		.section	.text.KBD_Init_Row,"ax",%progbits
+  21              		.align	1
+  22              		.global	KBD_Init_Row
+  23              		.syntax unified
+  24              		.thumb
+  25              		.thumb_func
+  27              	KBD_Init_Row:
+  28              	.LVL0:
+  29              	.LFB133:
+   1:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c **** #include "gpio.h"
+   2:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c **** #include "mem_addresses.h"
+   3:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c **** 
+   4:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c **** #include <stdio.h>
+   5:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c **** 
+   6:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c **** #define GPIO_DEBUG 0
+   7:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c **** 
+   8:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c **** #if !defined(GPIO_DEBUG) || GPIO_DEBUG == 0
+   9:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c **** #define printf(...)
+  10:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c **** #endif
+  11:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c **** 
+  12:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c **** #define __PORT_OF(pin) (pin / 16)
+  13:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c **** #define __PIN_OF(pin) (pin % 16)
+  14:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c **** 
+  15:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c **** // Initialize the row pin
+  16:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c **** void KBD_Init_Row(KBD_PIN_t pin) {
+  30              		.loc 1 16 34 view -0
+  31              		.cfi_startproc
+  32              		@ args = 0, pretend = 0, frame = 0
+  33              		@ frame_needed = 0, uses_anonymous_args = 0
+  34              		@ link register save eliminated.
+  35              		.loc 1 16 34 is_stmt 0 view .LVU1
+  36 0000 30B4     		push	{r4, r5}
+  37              	.LCFI0:
+  38              		.cfi_def_cfa_offset 8
+  39              		.cfi_offset 4, -8
+  40              		.cfi_offset 5, -4
+  17:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c ****     printf("KBD_Init_Row: 0x%.2x\n", pin);
+  41              		.loc 1 17 42 is_stmt 1 view .LVU2
+  18:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c **** 
+  19:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c **** #if GPIO_DEBUG > 1
+  20:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c ****     {
+  21:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c ****         GPIO_TypeDef* port = (GPIO_TypeDef*)__GPIO_BASE_PORT(__PORT_OF(pin));
+  22:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c ****         printf("before: MODER 0x%.8lx OTYPER 0x%.8lx OSPEEDR 0x%.8lx PUPDR 0x%.8lx IDR 0x%.8lx ODR 
+  23:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c ****             port->MODER,
+  24:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c ****             port->OTYPER,
+  25:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c ****             port->OSPEEDR,
+  26:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c ****             port->PUPDR,
+  27:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c ****             port->IDR,
+  28:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c ****             port->ODR,
+  29:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c ****             port->BSRR,
+  30:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c ****             port->LCKR,
+  31:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c ****             port->AFR[0],
+  32:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c ****             port->AFR[1]);
+  33:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c ****     }
+  34:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c **** #endif
+  35:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c **** 
+  36:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c ****     // Set the pin as output open drain
+  37:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c **** #if USE_BIT_BANDING
+  38:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c ****     // OSPEEDR
+  39:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c ****     uint32_t* temp = (uint32_t*)(__GPIO_BB_BASE_PORT(__PORT_OF(pin)) + 0x08 * 0x20 + __PIN_OF(pin) 
+  42              		.loc 1 39 5 view .LVU3
+  43              		.loc 1 39 34 is_stmt 0 view .LVU4
+  44 0002 4FEA101C 		lsr	ip, r0, #4
+  45 0006 4FEA8C23 		lsl	r3, ip, #10
+  46              		.loc 1 39 70 view .LVU5
+  47 000a 154A     		ldr	r2, .L3
+  48 000c 02EB8C22 		add	r2, r2, ip, lsl #10
+  49 0010 5401     		lsls	r4, r2, #5
+  50              		.loc 1 39 86 view .LVU6
+  51 0012 00F00F00 		and	r0, r0, #15
+  52              	.LVL1:
+  53              		.loc 1 39 100 view .LVU7
+  54 0016 C100     		lsls	r1, r0, #3
+  55              		.loc 1 39 84 view .LVU8
+  56 0018 01EB4212 		add	r2, r1, r2, lsl #5
+  57              	.LVL2:
+  40:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c ****     #if GPIO_OSPEEDR == 0
+  41:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c ****     *temp++ = 0;
+  42:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c ****     *temp = 0;
+  43:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c ****     #elif GPIO_OSPEEDR == 1
+  44:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c ****     *temp++ = 1;
+  58              		.loc 1 44 5 is_stmt 1 view .LVU9
+  59              		.loc 1 44 13 is_stmt 0 view .LVU10
+  60 001c 0125     		movs	r5, #1
+  61 001e 44F83050 		str	r5, [r4, r0, lsl #3]
+  45:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c ****     *temp = 0;
+  62              		.loc 1 45 5 is_stmt 1 view .LVU11
+  63              		.loc 1 45 11 is_stmt 0 view .LVU12
+  64 0022 0024     		movs	r4, #0
+  65 0024 5460     		str	r4, [r2, #4]
+  46:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c ****     #elif GPIO_OSPEEDR == 2
+  47:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c ****     *temp++ = 0;
+  48:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c ****     *temp = 1;
+  49:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c ****     #elif GPIO_OSPEEDR == 3
+  50:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c ****     *temp++ = 1;
+  51:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c ****     *temp = 1;
+  52:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c ****     #endif    
+  53:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c ****     printf("OSPEEDR 0x%.8lx\n", *(uint32_t*)(__GPIO_BASE_PORT(__PORT_OF(pin)) + 0x08));
+  66              		.loc 1 53 87 is_stmt 1 view .LVU13
+  54:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c **** 
+  55:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c ****     // OTYPER 1 (open drain)
+  56:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c ****     *(uint32_t*)(__GPIO_BB_BASE_PORT(__PORT_OF(pin)) + 0x04 * 0x20 + __PIN_OF(pin) * 4) = 1;
+  67              		.loc 1 56 5 view .LVU14
+  68              		.loc 1 56 54 is_stmt 0 view .LVU15
+  69 0026 0F4A     		ldr	r2, .L3+4
+  70              	.LVL3:
+  71              		.loc 1 56 54 view .LVU16
+  72 0028 02EB8C22 		add	r2, r2, ip, lsl #10
+  73 002c 5201     		lsls	r2, r2, #5
+  74              		.loc 1 56 89 view .LVU17
+  75 002e 42F82050 		str	r5, [r2, r0, lsl #2]
+  57:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c ****     printf("OTYPER 0x%.8lx\n", *(uint32_t*)(__GPIO_BASE_PORT(__PORT_OF(pin)) + 0x04));
+  76              		.loc 1 57 86 is_stmt 1 view .LVU18
+  58:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c **** 
+  59:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c ****     // PUPDR 00 (no pullup/pulldown)
+  60:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c ****     temp = (uint32_t*)(__GPIO_BB_BASE_PORT(__PORT_OF(pin)) + 0x0C * 0x20 + __PIN_OF(pin) * 8);
+  77              		.loc 1 60 5 view .LVU19
+  78              		.loc 1 60 60 is_stmt 0 view .LVU20
+  79 0032 0D4A     		ldr	r2, .L3+8
+  80 0034 02EB8C22 		add	r2, r2, ip, lsl #10
+  81 0038 4FEA421C 		lsl	ip, r2, #5
+  82              	.LVL4:
+  83              		.loc 1 60 74 view .LVU21
+  84 003c 01EB4212 		add	r2, r1, r2, lsl #5
+  85              	.LVL5:
+  61:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c ****     *temp++ = 0;
+  86              		.loc 1 61 5 is_stmt 1 view .LVU22
+  87              		.loc 1 61 13 is_stmt 0 view .LVU23
+  88 0040 4CF83040 		str	r4, [ip, r0, lsl #3]
+  62:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c ****     *temp = 0;
+  89              		.loc 1 62 5 is_stmt 1 view .LVU24
+  90              		.loc 1 62 11 is_stmt 0 view .LVU25
+  91 0044 5460     		str	r4, [r2, #4]
+  63:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c ****     printf("PUPDR 0x%.8lx\n", *(uint32_t*)(__GPIO_BASE_PORT(__PORT_OF(pin)) + 0x0C));
+  92              		.loc 1 63 85 is_stmt 1 view .LVU26
+  64:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c **** 
+  65:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c ****     // MODER: 01 (output)
+  66:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c ****     temp = (uint32_t*)(__GPIO_BB_BASE_PORT(__PORT_OF(pin)) + __PIN_OF(pin) * 8);
+  93              		.loc 1 66 5 view .LVU27
+  94              		.loc 1 66 24 is_stmt 0 view .LVU28
+  95 0046 03F10473 		add	r3, r3, #34603008
+  96 004a 03F50033 		add	r3, r3, #131072
+  97 004e 5A01     		lsls	r2, r3, #5
+  98              	.LVL6:
+  99              		.loc 1 66 60 view .LVU29
+ 100 0050 01EB4311 		add	r1, r1, r3, lsl #5
+ 101              	.LVL7:
+  67:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c ****     *temp++ = 1;
+ 102              		.loc 1 67 5 is_stmt 1 view .LVU30
+ 103              		.loc 1 67 13 is_stmt 0 view .LVU31
+ 104 0054 42F83050 		str	r5, [r2, r0, lsl #3]
+  68:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c ****     *temp = 0;
+ 105              		.loc 1 68 5 is_stmt 1 view .LVU32
+ 106              		.loc 1 68 11 is_stmt 0 view .LVU33
+ 107 0058 4C60     		str	r4, [r1, #4]
+  69:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c ****     printf("MODER 0x%.8lx\n", *(uint32_t*)(__GPIO_BASE_PORT(__PORT_OF(pin)) + 0x00));
+ 108              		.loc 1 69 85 is_stmt 1 view .LVU34
+  70:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c **** #else
+  71:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c ****     uint32_t temp;
+  72:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c ****     GPIO_TypeDef* port = (GPIO_TypeDef*)__GPIO_BASE_PORT(__PORT_OF(pin));
+  73:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c **** 
+  74:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c ****     // OSPEEDR
+  75:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c ****     temp = port->OSPEEDR;
+  76:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c ****     temp &= ~(GPIO_OSPEEDR << (__PIN_OF(pin) * 2));
+  77:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c ****     temp |= (GPIO_OSPEEDR << (__PIN_OF(pin) * 2));
+  78:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c ****     port->OSPEEDR = temp;
+  79:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c ****     printf("OSPEEDR 0x%.8lx\n", *(uint32_t*)(__GPIO_BASE_PORT(__PORT_OF(pin)) + 0x08));
+  80:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c **** 
+  81:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c ****     // OTYPER 1 (open drain)
+  82:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c ****     port->OTYPER |= (1 << __PIN_OF(pin));
+  83:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c ****     printf("OTYPER 0x%.8lx\n", *(uint32_t*)(__GPIO_BASE_PORT(__PORT_OF(pin)) + 0x04));
+  84:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c **** 
+  85:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c ****     // PUPDR 00 (no pullup/pulldown)
+  86:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c ****     port->PUPDR &= ~(3 << (__PIN_OF(pin) * 2));
+  87:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c ****     printf("PUPDR 0x%.8lx\n", *(uint32_t*)(__GPIO_BASE_PORT(__PORT_OF(pin)) + 0x0C));
+  88:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c **** 
+  89:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c ****     // MODER: 01 (output)
+  90:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c ****     temp = port->MODER;
+  91:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c ****     temp &= ~(1 << (__PIN_OF(pin) * 2));
+  92:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c ****     temp |= (1 << (__PIN_OF(pin) * 2));
+  93:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c ****     port->MODER = temp;
+  94:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c ****     printf("MODER 0x%.8lx\n", *(uint32_t*)(__GPIO_BASE_PORT(__PORT_OF(pin)) + 0x00));
+  95:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c **** #endif
+  96:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c **** 
+  97:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c **** #if GPIO_DEBUG > 1
+  98:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c ****     {
+  99:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c ****         GPIO_TypeDef* port = (GPIO_TypeDef*)__GPIO_BASE_PORT(__PORT_OF(pin));
+ 100:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c ****         printf("after: MODER 0x%.8lx OTYPER 0x%.8lx OSPEEDR 0x%.8lx PUPDR 0x%.8lx IDR 0x%.8lx ODR 0
+ 101:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c ****             port->MODER,
+ 102:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c ****             port->OTYPER,
+ 103:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c ****             port->OSPEEDR,
+ 104:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c ****             port->PUPDR,
+ 105:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c ****             port->IDR,
+ 106:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c ****             port->ODR,
+ 107:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c ****             port->BSRR,
+ 108:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c ****             port->LCKR,
+ 109:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c ****             port->AFR[0],
+ 110:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c ****             port->AFR[1]);
+ 111:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c ****     }
+ 112:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c **** #endif
+ 113:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c **** 
+ 114:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c **** }
+ 109              		.loc 1 114 1 is_stmt 0 view .LVU35
+ 110 005a 30BC     		pop	{r4, r5}
+ 111              	.LCFI1:
+ 112              		.cfi_restore 5
+ 113              		.cfi_restore 4
+ 114              		.cfi_def_cfa_offset 0
+ 115 005c 7047     		bx	lr
+ 116              	.L4:
+ 117 005e 00BF     		.align	2
+ 118              	.L3:
+ 119 0060 08001202 		.word	34734088
+ 120 0064 04001202 		.word	34734084
+ 121 0068 0C001202 		.word	34734092
+ 122              		.cfi_endproc
+ 123              	.LFE133:
+ 125              		.section	.text.KBD_Init_Col,"ax",%progbits
+ 126              		.align	1
+ 127              		.global	KBD_Init_Col
+ 128              		.syntax unified
+ 129              		.thumb
+ 130              		.thumb_func
+ 132              	KBD_Init_Col:
+ 133              	.LVL8:
+ 134              	.LFB134:
+ 115:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c **** 
+ 116:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c **** // Initialize the column pin
+ 117:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c **** void KBD_Init_Col(KBD_PIN_t pin) {
+ 135              		.loc 1 117 34 is_stmt 1 view -0
+ 136              		.cfi_startproc
+ 137              		@ args = 0, pretend = 0, frame = 0
+ 138              		@ frame_needed = 0, uses_anonymous_args = 0
+ 139              		@ link register save eliminated.
+ 140              		.loc 1 117 34 is_stmt 0 view .LVU37
+ 141 0000 30B4     		push	{r4, r5}
+ 142              	.LCFI2:
+ 143              		.cfi_def_cfa_offset 8
+ 144              		.cfi_offset 4, -8
+ 145              		.cfi_offset 5, -4
+ 118:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c ****     // Set the pin as input pullup
+ 119:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c ****     printf("KBD_Init_Col: 0x%.2x\n", pin);
+ 146              		.loc 1 119 42 is_stmt 1 view .LVU38
+ 120:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c **** 
+ 121:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c **** #if GPIO_DEBUG > 1
+ 122:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c ****     {
+ 123:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c ****         GPIO_TypeDef* port = (GPIO_TypeDef*)__GPIO_BASE_PORT(__PORT_OF(pin));
+ 124:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c ****         printf("before: MODER 0x%.8lx OTYPER 0x%.8lx OSPEEDR 0x%.8lx PUPDR 0x%.8lx\n",
+ 125:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c ****             port->MODER,
+ 126:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c ****             port->OTYPER,
+ 127:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c ****             port->OSPEEDR,
+ 128:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c ****             port->PUPDR);
+ 129:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c ****     }
+ 130:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c **** #endif
+ 131:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c **** 
+ 132:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c **** #if USE_BIT_BANDING
+ 133:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c ****     // PUPDR 01 (pullup)
+ 134:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c ****     uint32_t* temp = (uint32_t*)(__GPIO_BB_BASE_PORT(__PORT_OF(pin)) + 0x0C * 0x20 + __PIN_OF(pin) 
+ 147              		.loc 1 134 5 view .LVU39
+ 148              		.loc 1 134 34 is_stmt 0 view .LVU40
+ 149 0002 0109     		lsrs	r1, r0, #4
+ 150 0004 8B02     		lsls	r3, r1, #10
+ 151              		.loc 1 134 70 view .LVU41
+ 152 0006 0C4A     		ldr	r2, .L7
+ 153 0008 02EB8122 		add	r2, r2, r1, lsl #10
+ 154              		.loc 1 134 86 view .LVU42
+ 155 000c 00F00F00 		and	r0, r0, #15
+ 156              	.LVL9:
+ 157              		.loc 1 134 100 view .LVU43
+ 158 0010 C100     		lsls	r1, r0, #3
+ 159              		.loc 1 134 84 view .LVU44
+ 160 0012 01EB4212 		add	r2, r1, r2, lsl #5
+ 161              	.LVL10:
+ 135:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c ****     *temp-- = 0;
+ 162              		.loc 1 135 5 is_stmt 1 view .LVU45
+ 163              		.loc 1 135 13 is_stmt 0 view .LVU46
+ 164 0016 0024     		movs	r4, #0
+ 165 0018 5460     		str	r4, [r2, #4]
+ 136:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c ****     *temp = 1;
+ 166              		.loc 1 136 5 is_stmt 1 view .LVU47
+ 167              		.loc 1 136 11 is_stmt 0 view .LVU48
+ 168 001a 0125     		movs	r5, #1
+ 169 001c 1560     		str	r5, [r2]
+ 137:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c ****     printf("PUPDR 0x%.8lx\n", *(uint32_t*)(__GPIO_BASE_PORT(__PORT_OF(pin)) + 0x0C));
+ 170              		.loc 1 137 85 is_stmt 1 view .LVU49
+ 138:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c **** 
+ 139:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c ****     // MODER: 00 (input)
+ 140:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c ****     temp = (uint32_t*)(__GPIO_BB_BASE_PORT(__PORT_OF(pin)) + __PIN_OF(pin) * 8);
+ 171              		.loc 1 140 5 view .LVU50
+ 172              		.loc 1 140 24 is_stmt 0 view .LVU51
+ 173 001e 03F10473 		add	r3, r3, #34603008
+ 174 0022 03F50033 		add	r3, r3, #131072
+ 175 0026 5A01     		lsls	r2, r3, #5
+ 176              	.LVL11:
+ 177              		.loc 1 140 60 view .LVU52
+ 178 0028 01EB4311 		add	r1, r1, r3, lsl #5
+ 179              	.LVL12:
+ 141:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c ****     *temp++ = 0;
+ 180              		.loc 1 141 5 is_stmt 1 view .LVU53
+ 181              		.loc 1 141 13 is_stmt 0 view .LVU54
+ 182 002c 42F83040 		str	r4, [r2, r0, lsl #3]
+ 142:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c ****     *temp = 0;
+ 183              		.loc 1 142 5 is_stmt 1 view .LVU55
+ 184              		.loc 1 142 11 is_stmt 0 view .LVU56
+ 185 0030 4C60     		str	r4, [r1, #4]
+ 143:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c ****     printf("MODER 0x%.8lx\n", *(uint32_t*)(__GPIO_BASE_PORT(__PORT_OF(pin)) + 0x00));
+ 186              		.loc 1 143 85 is_stmt 1 view .LVU57
+ 144:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c **** #else
+ 145:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c ****     uint32_t temp;
+ 146:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c ****     GPIO_TypeDef* port = (GPIO_TypeDef*)__GPIO_BASE_PORT(__PORT_OF(pin));
+ 147:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c **** 
+ 148:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c ****     // PUPDR 01 (pullup)
+ 149:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c ****     temp = port->PUPDR;
+ 150:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c ****     temp &= ~(3 << (__PIN_OF(pin) * 2));
+ 151:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c ****     temp |= (1 << (__PIN_OF(pin) * 2));
+ 152:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c ****     port->PUPDR = temp;
+ 153:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c ****     printf("PUPDR 0x%.8lx\n", *(uint32_t*)(__GPIO_BASE_PORT(__PORT_OF(pin)) + 0x0C));
+ 154:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c **** 
+ 155:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c ****     // MODER: 00 (input)
+ 156:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c ****     temp = port->MODER;
+ 157:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c ****     temp &= ~(3 << (__PIN_OF(pin) * 2));
+ 158:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c ****     port->MODER = temp;
+ 159:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c ****     printf("MODER 0x%.8lx\n", *(uint32_t*)(__GPIO_BASE_PORT(__PORT_OF(pin)) + 0x00));
+ 160:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c **** #endif
+ 161:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c **** 
+ 162:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c **** #if GPIO_DEBUG > 1
+ 163:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c ****     {
+ 164:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c ****         GPIO_TypeDef* port = (GPIO_TypeDef*)__GPIO_BASE_PORT(__PORT_OF(pin));
+ 165:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c ****         printf("after: MODER 0x%.8lx OTYPER 0x%.8lx OSPEEDR 0x%.8lx PUPDR 0x%.8lx\n",
+ 166:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c ****             port->MODER,
+ 167:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c ****             port->OTYPER,
+ 168:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c ****             port->OSPEEDR,
+ 169:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c ****             port->PUPDR);
+ 170:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c ****     }
+ 171:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c **** #endif
+ 172:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c **** 
+ 173:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c **** }
+ 187              		.loc 1 173 1 is_stmt 0 view .LVU58
+ 188 0032 30BC     		pop	{r4, r5}
+ 189              	.LCFI3:
+ 190              		.cfi_restore 5
+ 191              		.cfi_restore 4
+ 192              		.cfi_def_cfa_offset 0
+ 193 0034 7047     		bx	lr
+ 194              	.L8:
+ 195 0036 00BF     		.align	2
+ 196              	.L7:
+ 197 0038 0C001202 		.word	34734092
+ 198              		.cfi_endproc
+ 199              	.LFE134:
+ 201              		.section	.text.KBD_Select_Row,"ax",%progbits
+ 202              		.align	1
+ 203              		.global	KBD_Select_Row
+ 204              		.syntax unified
+ 205              		.thumb
+ 206              		.thumb_func
+ 208              	KBD_Select_Row:
+ 209              	.LVL13:
+ 210              	.LFB135:
+ 174:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c **** 
+ 175:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c **** void KBD_Select_Row(KBD_PIN_t pin) {
+ 211              		.loc 1 175 36 is_stmt 1 view -0
+ 212              		.cfi_startproc
+ 213              		@ args = 0, pretend = 0, frame = 0
+ 214              		@ frame_needed = 0, uses_anonymous_args = 0
+ 215              		@ link register save eliminated.
+ 176:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c ****     // Set the pin to LOW
+ 177:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c ****     printf("KBD_Select_Row: 0x%.2x\n", pin);
+ 216              		.loc 1 177 44 view .LVU60
+ 217              	.LBB2:
+ 178:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c **** #if GPIO_DEBUG > 1
+ 179:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c ****     {
+ 180:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c ****         GPIO_TypeDef* port = (GPIO_TypeDef*)__GPIO_BASE_PORT(__PORT_OF(pin));
+ 181:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c ****         printf("before: IDR 0x%.8lx ODR 0x%.8lx\n", port->IDR, port->ODR);
+ 182:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c ****     }
+ 183:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c **** #endif
+ 184:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c **** 
+ 185:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c **** #if USE_BIT_BANDING
+ 186:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c ****     {
+ 187:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c ****         uint32_t* rs = (uint32_t*)(__GPIO_BB_BASE_PORT(__PORT_OF(pin)) + 0x18 * 0x20 + 0x10 + __PIN
+ 218              		.loc 1 187 9 view .LVU61
+ 219              		.loc 1 187 36 is_stmt 0 view .LVU62
+ 220 0000 0209     		lsrs	r2, r0, #4
+ 221              		.loc 1 187 72 view .LVU63
+ 222 0002 054B     		ldr	r3, .L10
+ 223 0004 03EB8223 		add	r3, r3, r2, lsl #10
+ 224              		.loc 1 187 95 view .LVU64
+ 225 0008 00F00F00 		and	r0, r0, #15
+ 226              	.LVL14:
+ 227              		.loc 1 187 109 view .LVU65
+ 228 000c 8000     		lsls	r0, r0, #2
+ 229              		.loc 1 187 93 view .LVU66
+ 230 000e 00EB4310 		add	r0, r0, r3, lsl #5
+ 231              	.LVL15:
+ 188:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c ****         printf("RS PIN: 0x%.8lx\n", (uint32_t)rs);
+ 232              		.loc 1 188 50 is_stmt 1 view .LVU67
+ 189:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c ****         *rs = 1;
+ 233              		.loc 1 189 9 view .LVU68
+ 234              		.loc 1 189 13 is_stmt 0 view .LVU69
+ 235 0012 0123     		movs	r3, #1
+ 236 0014 0361     		str	r3, [r0, #16]
+ 237              	.LBE2:
+ 190:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c ****     }
+ 191:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c **** #else
+ 192:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c ****     GPIO_TypeDef* port = (GPIO_TypeDef*)__GPIO_BASE_PORT(__PORT_OF(pin));
+ 193:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c ****     port->BSRR = (1 << (__PIN_OF(pin) + 16));
+ 194:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c **** #endif
+ 195:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c **** 
+ 196:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c **** #if GPIO_DEBUG > 1
+ 197:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c ****     {
+ 198:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c ****         GPIO_TypeDef* port = (GPIO_TypeDef*)__GPIO_BASE_PORT(__PORT_OF(pin));
+ 199:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c ****         printf("after: IDR 0x%.8lx ODR 0x%.8lx\n", port->IDR, port->ODR);
+ 200:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c ****     }
+ 201:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c **** #endif
+ 202:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c **** 
+ 203:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c **** }
+ 238              		.loc 1 203 1 view .LVU70
+ 239 0016 7047     		bx	lr
+ 240              	.L11:
+ 241              		.align	2
+ 242              	.L10:
+ 243 0018 18001202 		.word	34734104
+ 244              		.cfi_endproc
+ 245              	.LFE135:
+ 247              		.section	.text.KBD_Unselect_Row,"ax",%progbits
+ 248              		.align	1
+ 249              		.global	KBD_Unselect_Row
+ 250              		.syntax unified
+ 251              		.thumb
+ 252              		.thumb_func
+ 254              	KBD_Unselect_Row:
+ 255              	.LVL16:
+ 256              	.LFB136:
+ 204:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c **** 
+ 205:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c **** void KBD_Unselect_Row(KBD_PIN_t pin) {
+ 257              		.loc 1 205 38 is_stmt 1 view -0
+ 258              		.cfi_startproc
+ 259              		@ args = 0, pretend = 0, frame = 0
+ 260              		@ frame_needed = 0, uses_anonymous_args = 0
+ 261              		@ link register save eliminated.
+ 206:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c ****     // Set the pin to HIGH (open drain)
+ 207:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c ****     printf("KBD_Unselect_Row: 0x%.2x\n", pin);
+ 262              		.loc 1 207 46 view .LVU72
+ 263              	.LBB3:
+ 208:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c **** #if GPIO_DEBUG > 1
+ 209:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c ****     {
+ 210:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c ****         GPIO_TypeDef* port = (GPIO_TypeDef*)__GPIO_BASE_PORT(__PORT_OF(pin));
+ 211:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c ****         printf("before: IDR 0x%.8lx ODR 0x%.8lx\n", port->IDR, port->ODR);
+ 212:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c ****     }
+ 213:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c **** #endif
+ 214:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c **** 
+ 215:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c **** #if USE_BIT_BANDING
+ 216:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c ****     {
+ 217:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c ****         uint32_t* bs = (uint32_t*)(__GPIO_BB_BASE_PORT(__PORT_OF(pin)) + 0x18 * 0x20 + __PIN_OF(pin
+ 264              		.loc 1 217 9 view .LVU73
+ 265              		.loc 1 217 36 is_stmt 0 view .LVU74
+ 266 0000 0209     		lsrs	r2, r0, #4
+ 267              		.loc 1 217 72 view .LVU75
+ 268 0002 054B     		ldr	r3, .L13
+ 269 0004 03EB8223 		add	r3, r3, r2, lsl #10
+ 270 0008 5B01     		lsls	r3, r3, #5
+ 271              		.loc 1 217 88 view .LVU76
+ 272 000a 00F00F00 		and	r0, r0, #15
+ 273              	.LVL17:
+ 218:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c ****         printf("BS PIN: 0x%.8lx\n", (uint32_t)bs);
+ 274              		.loc 1 218 50 is_stmt 1 view .LVU77
+ 219:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c ****         *bs = 0;
+ 275              		.loc 1 219 9 view .LVU78
+ 276              		.loc 1 219 13 is_stmt 0 view .LVU79
+ 277 000e 0022     		movs	r2, #0
+ 278 0010 43F82020 		str	r2, [r3, r0, lsl #2]
+ 279              	.LBE3:
+ 220:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c ****     }
+ 221:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c **** #else
+ 222:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c ****     GPIO_TypeDef* port = (GPIO_TypeDef*)__GPIO_BASE_PORT(__PORT_OF(pin));
+ 223:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c ****     port->BSRR = (1 << (__PIN_OF(pin)));
+ 224:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c **** #endif
+ 225:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c **** 
+ 226:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c **** #if GPIO_DEBUG > 1
+ 227:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c ****     {
+ 228:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c ****         GPIO_TypeDef* port = (GPIO_TypeDef*)__GPIO_BASE_PORT(__PORT_OF(pin));
+ 229:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c ****         printf("after: IDR 0x%.8lx ODR 0x%.8lx\n", port->IDR, port->ODR);
+ 230:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c ****     }
+ 231:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c **** #endif
+ 232:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c **** 
+ 233:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c **** }
+ 280              		.loc 1 233 1 view .LVU80
+ 281 0014 7047     		bx	lr
+ 282              	.L14:
+ 283 0016 00BF     		.align	2
+ 284              	.L13:
+ 285 0018 18001202 		.word	34734104
+ 286              		.cfi_endproc
+ 287              	.LFE136:
+ 289              		.section	.text.Read_Col,"ax",%progbits
+ 290              		.align	1
+ 291              		.global	Read_Col
+ 292              		.syntax unified
+ 293              		.thumb
+ 294              		.thumb_func
+ 296              	Read_Col:
+ 297              	.LVL18:
+ 298              	.LFB137:
+ 234:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c **** 
+ 235:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c **** // Read the state of the column pin
+ 236:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c **** int Read_Col(KBD_PIN_t pin) {
+ 299              		.loc 1 236 29 is_stmt 1 view -0
+ 300              		.cfi_startproc
+ 301              		@ args = 0, pretend = 0, frame = 0
+ 302              		@ frame_needed = 0, uses_anonymous_args = 0
+ 303              		@ link register save eliminated.
+ 237:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c ****     return 0;
+ 304              		.loc 1 237 5 view .LVU82
+ 238:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c **** }
+ 305              		.loc 1 238 1 is_stmt 0 view .LVU83
+ 306 0000 0020     		movs	r0, #0
+ 307              	.LVL19:
+ 308              		.loc 1 238 1 view .LVU84
+ 309 0002 7047     		bx	lr
+ 310              		.cfi_endproc
+ 311              	.LFE137:
+ 313              		.section	.text.Read_Port,"ax",%progbits
+ 314              		.align	1
+ 315              		.global	Read_Port
+ 316              		.syntax unified
+ 317              		.thumb
+ 318              		.thumb_func
+ 320              	Read_Port:
+ 321              	.LVL20:
+ 322              	.LFB138:
+ 239:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c **** 
+ 240:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c **** // Read the state of all pins in the port
+ 241:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c **** uint32_t Read_Port(KBD_PORT_t port) {
+ 323              		.loc 1 241 37 is_stmt 1 view -0
+ 324              		.cfi_startproc
+ 325              		@ args = 0, pretend = 0, frame = 0
+ 326              		@ frame_needed = 0, uses_anonymous_args = 0
+ 327              		@ link register save eliminated.
+ 242:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c ****     return 0;
+ 328              		.loc 1 242 5 view .LVU86
+ 243:/home/yan/Work/STM32KBD/firmware/code/src/gpio.c **** }
+ 329              		.loc 1 243 1 is_stmt 0 view .LVU87
+ 330 0000 0020     		movs	r0, #0
+ 331              	.LVL21:
+ 332              		.loc 1 243 1 view .LVU88
+ 333 0002 7047     		bx	lr
+ 334              		.cfi_endproc
+ 335              	.LFE138:
+ 337              		.text
+ 338              	.Letext0:
+ 339              		.file 2 "/usr/lib/gcc/arm-none-eabi/12.2.1/include/stdint.h"
+ 340              		.file 3 "/home/yan/Work/STM32KBD/firmware/code/include/gpio.h"
+DEFINED SYMBOLS
+                            *ABS*:00000000 gpio.c
+     /tmp/ccor7HhN.s:21     .text.KBD_Init_Row:00000000 $t
+     /tmp/ccor7HhN.s:27     .text.KBD_Init_Row:00000000 KBD_Init_Row
+     /tmp/ccor7HhN.s:119    .text.KBD_Init_Row:00000060 $d
+     /tmp/ccor7HhN.s:126    .text.KBD_Init_Col:00000000 $t
+     /tmp/ccor7HhN.s:132    .text.KBD_Init_Col:00000000 KBD_Init_Col
+     /tmp/ccor7HhN.s:197    .text.KBD_Init_Col:00000038 $d
+     /tmp/ccor7HhN.s:202    .text.KBD_Select_Row:00000000 $t
+     /tmp/ccor7HhN.s:208    .text.KBD_Select_Row:00000000 KBD_Select_Row
+     /tmp/ccor7HhN.s:243    .text.KBD_Select_Row:00000018 $d
+     /tmp/ccor7HhN.s:248    .text.KBD_Unselect_Row:00000000 $t
+     /tmp/ccor7HhN.s:254    .text.KBD_Unselect_Row:00000000 KBD_Unselect_Row
+     /tmp/ccor7HhN.s:285    .text.KBD_Unselect_Row:00000018 $d
+     /tmp/ccor7HhN.s:290    .text.Read_Col:00000000 $t
+     /tmp/ccor7HhN.s:296    .text.Read_Col:00000000 Read_Col
+     /tmp/ccor7HhN.s:314    .text.Read_Port:00000000 $t
+     /tmp/ccor7HhN.s:320    .text.Read_Port:00000000 Read_Port
+
+NO UNDEFINED SYMBOLS

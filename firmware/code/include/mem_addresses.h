@@ -7,7 +7,9 @@ extern "C" {
 
 #ifdef STM32F401xC
 
-#define USE_BIT_BANDING
+#ifndef USE_BIT_BANDING
+#define USE_BIT_BANDING 1
+#endif
 
 #define __GPIO_BASE_PORT(x) (GPIOA_BASE + (x * 0x400))
 
