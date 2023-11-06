@@ -32,23 +32,21 @@ set(CMAKE_ASM_FLAGS "${COMMON_FLAGS} ${C_FLAGS} -x assembler-with-cpp")
 
 file(GLOB ASM_SOURCES ${STARTUP_SOURCE})
 
-#message(STATUS "SOURCES: ${SOURCES}")
-
-#set_source_files_properties(${CMAKE_SOURCE_DIR}/code/src/main.c PROPERTIES COMPILE_OPTIONS "-Wa,-a,-ad,-alms=${CMAKE_SOURCE_DIR}/code/src/main.lst")
-
-add_executable(${PROJECT_NAME}.elf ${SOURCES} ${ASM_SOURCES} ${LINKER_SCRIPT})
-target_link_libraries(${PROJECT_NAME}.elf c m nosys)
-
 if(GENERATE_LST_FILES)
-foreach(srcfile IN LISTS SOURCES)
-  set_source_files_properties(${srcfile} PROPERTIES COMPILE_FLAGS "-Wa,-anhlmsd=${srcfile}.lst")
-endforeach()
+  set(CMAKE_C_COMPILE_OBJECT "${CMAKE_C_COMPILE_OBJECT} -Wa,-a,-ad,-alms=<OBJECT>.lst")
 endif()
 
-set(CMAKE_EXE_LINKER_FLAGS "-T${LINKER_SCRIPT} ${COMMON_FLAGS} -Wl,-Map=${PROJECT_BINARY_DIR}/${PROJECT_NAME}.map,--cref -Wl,--gc-sections -specs=nano.specs")
+get_cmake_property(_variableNames VARIABLES)
+list (SORT _variableNames)
+foreach (_variableName ${_variableNames})
+    message(STATUS "${_variableName}=${${_variableName}}")
+endforeach()
 
 set(HEX_FILE ${PROJECT_BINARY_DIR}/${PROJECT_NAME}.hex)
 set(BIN_FILE ${PROJECT_BINARY_DIR}/${PROJECT_NAME}.bin)
+
+add_executable(${PROJECT_NAME}.elf ${SOURCES} ${ASM_SOURCES} ${LINKER_SCRIPT})
+target_link_libraries(${PROJECT_NAME}.elf c m nosys)
 
 add_custom_command(TARGET ${PROJECT_NAME}.elf POST_BUILD
         COMMAND ${SIZE} ${PROJECT_NAME}.elf
@@ -56,4 +54,3 @@ add_custom_command(TARGET ${PROJECT_NAME}.elf POST_BUILD
         COMMAND ${CMAKE_OBJCOPY} -O binary -S $<TARGET_FILE:${PROJECT_NAME}.elf> ${BIN_FILE}
         COMMENT "Building ${HEX_FILE}
 Building ${BIN_FILE}")
-
