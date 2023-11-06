@@ -47,6 +47,7 @@ set(BIN_FILE ${PROJECT_BINARY_DIR}/${PROJECT_NAME}.bin)
 
 add_executable(${PROJECT_NAME}.elf ${SOURCES} ${ASM_SOURCES} ${LINKER_SCRIPT})
 target_link_libraries(${PROJECT_NAME}.elf c m nosys)
+set(CMAKE_EXE_LINKER_FLAGS "-T${LINKER_SCRIPT} ${COMMON_FLAGS} -Wl,-Map=${PROJECT_BINARY_DIR}/${PROJECT_NAME}.map,--cref -Wl,--gc-sections -specs=nano.specs")
 
 add_custom_command(TARGET ${PROJECT_NAME}.elf POST_BUILD
         COMMAND ${SIZE} ${PROJECT_NAME}.elf
