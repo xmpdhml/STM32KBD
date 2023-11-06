@@ -169,10 +169,10 @@ void KBD_Unselect_Row(KBD_PIN_t pin) {
 
 // Read the state of the column pin
 int Read_Col(KBD_PIN_t pin) {
-    return 0;
+    return ((GPIO_TypeDef*)__GPIO_BASE_PORT(__PORT_OF(pin)))->IDR & (1 << __PIN_OF(pin)) >> __PIN_OF(pin);
 }
 
 // Read the state of all pins in the port
 uint32_t Read_Port(KBD_PORT_t port) {
-    return 0;
+    return ((GPIO_TypeDef*)__GPIO_BASE_PORT(port))->IDR;
 }
