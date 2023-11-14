@@ -16,7 +16,7 @@ int main(void)
   DMA_Init();
   USART2_UART_Init();
 
-  KBD_Init_Row(PIN_C0);
+  KBD_Init_Row(C0);
 
   int i = 0;
   while (1)

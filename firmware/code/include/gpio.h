@@ -5,6 +5,8 @@
 extern "C" {
 #endif
 
+#include <stdbool.h>
+
 #include "hal.h"
 
 typedef enum {
@@ -43,22 +45,22 @@ typedef enum {
 #define KBD_PIN(port, pin) ((port << 4) | pin)
 
 #define DEF_PINS_FOR_PORT(x) \
-    PIN_##x##0 = KBD_PIN(KBD_PORT_##x, KBD_PIN_0), \
-    PIN_##x##1 = KBD_PIN(KBD_PORT_##x, KBD_PIN_1), \
-    PIN_##x##2 = KBD_PIN(KBD_PORT_##x, KBD_PIN_2), \
-    PIN_##x##3 = KBD_PIN(KBD_PORT_##x, KBD_PIN_3), \
-    PIN_##x##4 = KBD_PIN(KBD_PORT_##x, KBD_PIN_4), \
-    PIN_##x##5 = KBD_PIN(KBD_PORT_##x, KBD_PIN_5), \
-    PIN_##x##6 = KBD_PIN(KBD_PORT_##x, KBD_PIN_6), \
-    PIN_##x##7 = KBD_PIN(KBD_PORT_##x, KBD_PIN_7), \
-    PIN_##x##8 = KBD_PIN(KBD_PORT_##x, KBD_PIN_8), \
-    PIN_##x##9 = KBD_PIN(KBD_PORT_##x, KBD_PIN_9), \
-    PIN_##x##10 = KBD_PIN(KBD_PORT_##x, KBD_PIN_10), \
-    PIN_##x##11 = KBD_PIN(KBD_PORT_##x, KBD_PIN_11), \
-    PIN_##x##12 = KBD_PIN(KBD_PORT_##x, KBD_PIN_12), \
-    PIN_##x##13 = KBD_PIN(KBD_PORT_##x, KBD_PIN_13), \
-    PIN_##x##14 = KBD_PIN(KBD_PORT_##x, KBD_PIN_14), \
-    PIN_##x##15 = KBD_PIN(KBD_PORT_##x, KBD_PIN_15)
+    x##0 = KBD_PIN(KBD_PORT_##x, KBD_PIN_0), \
+    x##1 = KBD_PIN(KBD_PORT_##x, KBD_PIN_1), \
+    x##2 = KBD_PIN(KBD_PORT_##x, KBD_PIN_2), \
+    x##3 = KBD_PIN(KBD_PORT_##x, KBD_PIN_3), \
+    x##4 = KBD_PIN(KBD_PORT_##x, KBD_PIN_4), \
+    x##5 = KBD_PIN(KBD_PORT_##x, KBD_PIN_5), \
+    x##6 = KBD_PIN(KBD_PORT_##x, KBD_PIN_6), \
+    x##7 = KBD_PIN(KBD_PORT_##x, KBD_PIN_7), \
+    x##8 = KBD_PIN(KBD_PORT_##x, KBD_PIN_8), \
+    x##9 = KBD_PIN(KBD_PORT_##x, KBD_PIN_9), \
+    x##10 = KBD_PIN(KBD_PORT_##x, KBD_PIN_10), \
+    x##11 = KBD_PIN(KBD_PORT_##x, KBD_PIN_11), \
+    x##12 = KBD_PIN(KBD_PORT_##x, KBD_PIN_12), \
+    x##13 = KBD_PIN(KBD_PORT_##x, KBD_PIN_13), \
+    x##14 = KBD_PIN(KBD_PORT_##x, KBD_PIN_14), \
+    x##15 = KBD_PIN(KBD_PORT_##x, KBD_PIN_15)
 
 typedef enum {
 DEF_PINS_FOR_PORT(A),
@@ -74,8 +76,17 @@ DEF_PINS_FOR_PORT(J),
 DEF_PINS_FOR_PORT(K),
 } KBD_PIN_t;
 
+// Initialize the row pin as output open drain
 void KBD_Init_Row(KBD_PIN_t pin);
+
+// Initialize the column pin as input pullup
 void KBD_Init_Col(KBD_PIN_t pin);
+
+// Initialize the LED pin
+//      positive:
+//          1 pin->LED->GND init as output push pull
+//          0 VCC->LED->pin init as output open drain
+void KBD_Init_LED(KBD_PIN_t pin, bool positive);
 
 void KBD_Select_Row(KBD_PIN_t pin);
 void KBD_Unselect_Row(KBD_PIN_t pin);
